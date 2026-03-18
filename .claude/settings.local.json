@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \":*)",
+      "mcp__figma__get_metadata",
+      "Read(//Users/bernardoramalho/.claude/**)",
+      "Read(//Users/bernardoramalho/**)",
+      "Bash(python3 -c \" import json, sys data = json.load\\(sys.stdin\\) # Look for figma configuration - mask any tokens if ''mcpServers'' in data: for name, config in data[''mcpServers''].items\\(\\): if ''figma'' in name.lower\\(\\): print\\(f''Server: {name}''\\) env = config.get\\(''env'', {}\\) for k, v in env.items\\(\\): print\\(f'' {k}: {v[:10]}...'' if len\\(v\\) > 10 else f'' {k}: {v}''\\) cmd = config.get\\(''command'', ''''\\) args = config.get\\(''args'', []\\) print\\(f'' command: {cmd} {args}''\\) \")",
+      "Bash(python3 -m json.tool)",
+      "mcp__figma__get_design_context"
+    ]
+  }
+}

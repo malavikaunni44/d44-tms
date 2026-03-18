@@ -1,0 +1,182 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$metadata": {
+    "source": "Manifest Material Design System",
+    "figmaFileKey": "Tulc1hjAI8hu7AeyGONCsq",
+    "figmaUrl": "https://www.figma.com/design/Tulc1hjAI8hu7AeyGONCsq/Manifest-Material-Design-System",
+    "exportedAt": "2026-03-17",
+    "fontFamily": "Inter"
+  },
+  "color": {
+    "primary": {
+      "main":   { "$value": "#4f4cf3", "$type": "color", "$description": "Primary brand color — use for primary action buttons, key UI elements" },
+      "hover":  { "$value": "#3836d4", "$type": "color", "$description": "Primary hover state" },
+      "active": { "$value": "#16147f", "$type": "color", "$description": "Primary active/pressed state" }
+    },
+    "background": {
+      "default":   { "$value": "#ffffff", "$type": "color", "$description": "Default page/surface background" },
+      "secondary": { "$value": "#f3f4f6", "$type": "color", "$description": "Secondary surface background" },
+      "tertiary":  { "$value": "#e5e7eb", "$type": "color", "$description": "Tertiary surface, card slots, dividers" },
+      "danger":    { "$value": "#fef2f2", "$type": "color", "$description": "Error/danger state background" },
+      "success":   { "$value": "#ecfdf5", "$type": "color", "$description": "Success state background" },
+      "info":      { "$value": "#e8ebff", "$type": "color", "$description": "Info state background" },
+      "warning":   { "$value": "#fef3c7", "$type": "color", "$description": "Warning state background" },
+      "overlay":   { "$value": "rgba(9, 21, 33, 0.6)", "$type": "color", "$description": "Modal backdrop overlay" }
+    },
+    "border": {
+      "primary": { "$value": "#e5e7eb", "$type": "color", "$description": "Default border color for cards, inputs, separators" }
+    },
+    "textAndIcons": {
+      "primary":   { "$value": "#030712", "$type": "color", "$description": "Primary text and icon color" },
+      "secondary": { "$value": "#374151", "$type": "color", "$description": "Secondary text and icon color" },
+      "tertiary":  { "$value": "#6b7280", "$type": "color", "$description": "Tertiary text and icon color (subdued)" },
+      "contrast":  { "$value": "#ffffff", "$type": "color", "$description": "High-contrast text on dark/primary backgrounds" },
+      "danger":    { "$value": "#b91c1c", "$type": "color", "$description": "Error/danger text and icon color" },
+      "success":   { "$value": "#047857", "$type": "color", "$description": "Success text and icon color" },
+      "warning":   { "$value": "#ba7500", "$type": "color", "$description": "Warning text and icon color" },
+      "disabled":  { "$value": "#9ca3af", "$type": "color", "$description": "Disabled state text and icon color" }
+    },
+    "blackAndWhite": {
+      "black": { "$value": "#030712", "$type": "color", "$description": "Pure black used for headings/high-contrast text" },
+      "white": { "$value": "#ffffff", "$type": "color", "$description": "Pure white" }
+    },
+    "grey": {
+      "100": { "$value": "#f3f4f6", "$type": "color" },
+      "300": { "$value": "#d1d5db", "$type": "color" },
+      "400": { "$value": "#9ca3af", "$type": "color" }
+    },
+    "red": {
+      "700": { "$value": "#b91c1c", "$type": "color" },
+      "800": { "$value": "#991b1b", "$type": "color" },
+      "900": { "$value": "#7f1d1d", "$type": "color" }
+    },
+    "yellow": {
+      "50": { "$value": "#fffdf5", "$type": "color" }
+    },
+    "indigo": {
+      "700": { "$value": "#3836d4", "$type": "color" }
+    },
+    "gradientPinkIndigo": {
+      "500": { "$value": "#6340cd", "$type": "color", "$description": "Gradient pink-indigo stop at 500" },
+      "600": { "$value": "#4b38d0", "$type": "color", "$description": "Gradient pink-indigo stop at 600" }
+    },
+    "brand": {
+      "hover":  { "$value": "#091521", "$type": "color", "$description": "Brand hover state (dark navy)" },
+      "active": { "$value": "#091521", "$type": "color", "$description": "Brand active state (dark navy)" }
+    }
+  },
+  "spacing": {
+    "$description": "Spacing scale based on a 4px base unit. Token name indicates the multiplier (e.g. spacing/2 = 2 × 4px = 8px).",
+    "0":   { "$value": "0px",  "$type": "dimension" },
+    "1":   { "$value": "4px",  "$type": "dimension" },
+    "1-5": { "$value": "6px",  "$type": "dimension", "$description": "spacing/1.5 — between spacing/1 and spacing/2" },
+    "2":   { "$value": "8px",  "$type": "dimension" },
+    "3":   { "$value": "12px", "$type": "dimension" },
+    "4":   { "$value": "16px", "$type": "dimension" },
+    "5":   { "$value": "20px", "$type": "dimension" },
+    "6":   { "$value": "24px", "$type": "dimension" },
+    "7":   { "$value": "28px", "$type": "dimension" },
+    "8":   { "$value": "32px", "$type": "dimension" },
+    "9":   { "$value": "36px", "$type": "dimension" },
+    "10":  { "$value": "40px", "$type": "dimension" }
+  },
+  "borderRadius": {
+    "$description": "Border radius scale for rounded corners.",
+    "xsmall": { "$value": "4px",    "$type": "dimension", "$description": "Extra small — tags, small badges, icon buttons" },
+    "small":  { "$value": "8px",    "$type": "dimension", "$description": "Small — buttons, inputs, chips" },
+    "medium": { "$value": "16px",   "$type": "dimension", "$description": "Medium — cards, alerts, containers" },
+    "large":  { "$value": "24px",   "$type": "dimension", "$description": "Large — dialogs, modals, overlays" },
+    "full":   { "$value": "9999px", "$type": "dimension", "$description": "Full — pill badges, toggles, fully rounded chips" }
+  },
+  "typography": {
+    "$description": "Text styles using the Inter font family.",
+    "fontFamily": { "$value": "Inter, sans-serif", "$type": "fontFamily" },
+    "caption": {
+      "$description": "Caption — smallest text, labels, metadata",
+      "fontSize":      { "$value": "12px", "$type": "dimension" },
+      "fontWeight":    { "$value": 400, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "18px", "$type": "dimension" },
+      "letterSpacing": { "$value": "0em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "captionBold": {
+      "$description": "Caption Bold — emphasized small labels",
+      "fontSize":      { "$value": "12px", "$type": "dimension" },
+      "fontWeight":    { "$value": 600, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "18px", "$type": "dimension" },
+      "letterSpacing": { "$value": "0em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "subtext": {
+      "$description": "Subtext — secondary body copy, helper text",
+      "fontSize":      { "$value": "14px", "$type": "dimension" },
+      "fontWeight":    { "$value": 400, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "20px", "$type": "dimension" },
+      "letterSpacing": { "$value": "0em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "subtextBold": {
+      "$description": "Subtext Bold — emphasized secondary text, button labels",
+      "fontSize":      { "$value": "14px", "$type": "dimension" },
+      "fontWeight":    { "$value": 600, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "20px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "body": {
+      "$description": "Body — default body copy",
+      "fontSize":      { "$value": "16px", "$type": "dimension" },
+      "fontWeight":    { "$value": 400, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "24px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "subtitle": {
+      "$description": "Subtitle — emphasized body-sized text, section labels",
+      "fontSize":      { "$value": "16px", "$type": "dimension" },
+      "fontWeight":    { "$value": 700, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "24px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "title": {
+      "$description": "Title — dialog titles, modal headers",
+      "fontSize":      { "$value": "20px", "$type": "dimension" },
+      "fontWeight":    { "$value": 700, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "30px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "heading": {
+      "$description": "Heading — card headers, section headings",
+      "fontSize":      { "$value": "24px", "$type": "dimension" },
+      "fontWeight":    { "$value": 700, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "32px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.02em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "display": {
+      "$description": "Display — page-level headings, hero text",
+      "fontSize":      { "$value": "32px", "$type": "dimension" },
+      "fontWeight":    { "$value": 700, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "42px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.03em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    }
+  },
+  "shadow": {
+    "$description": "Elevation shadows using the brand indigo (#3836d4) as shadow color.",
+    "light": {
+      "small": {
+        "$value": "0px 4px 16px -8px rgba(56, 54, 212, 0.16), 0px 0px 1px 0px rgba(56, 54, 212, 0.5)",
+        "$type": "shadow",
+        "$description": "Small elevation — cards, dropdowns"
+      },
+      "medium": {
+        "$value": "0px 12px 16px -8px rgba(56, 54, 212, 0.08), 0px 2px 2px 0px rgba(56, 54, 212, 0.07), 0px -1px 2px 0px rgba(56, 54, 212, 0.02)",
+        "$type": "shadow",
+        "$description": "Medium elevation — dialogs, modals, popovers"
+      }
+    }
+  }
+}
