@@ -3,8 +3,1430 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Transportation App v1</title>
+  <title>Transportation Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet" />
+  <style>
+    /* ─── Design Tokens ─── */
+    :root {
+      --color-primary-main:   #4f4cf3;
+      --color-primary-hover:  #3836d4;
+      --color-primary-active: #16147f;
+
+      --color-bg-default:     #ffffff;
+      --color-bg-subtle:      #f9fafb;
+      --color-bg-secondary:   #f3f4f6;
+      --color-bg-tertiary:    #e5e7eb;
+      --color-bg-danger:      #fef2f2;
+      --color-bg-success:     #ecfdf5;
+      --color-bg-info:        #e8ebff;
+      --color-bg-warning:     #fef3c7;
+
+      --color-border:         #e5e7eb;
+      --color-border-danger:  #991b1b;
+
+      --color-text-primary:   #030712;
+      --color-text-secondary: #374151;
+      --color-text-tertiary:  #6b7280;
+      --color-text-contrast:  #ffffff;
+      --color-text-danger:    #b91c1c;
+      --color-text-success:   #047857;
+      --color-text-warning:   #ba7500;
+      --color-text-disabled:  #9ca3af;
+
+      --color-indigo-100:     #bfc7ff;
+      --color-indigo-200:     #9ba4ff;
+      --color-indigo-500:     #5f5cff;
+      --color-indigo-700:     #3836d4;
+
+      --color-grey-300:       #d1d5db;
+      --color-grey-400:       #9ca3af;
+      --color-grey-500:       #6b7280;
+
+      --color-green-300:      #6ee7b7;
+      --color-yellow-500:     #faa30f;
+
+      --color-gradient-pi-500: #6340cd;
+
+      --radius-xsmall:  4px;
+      --radius-small:   8px;
+      --radius-medium:  16px;
+      --radius-large:   24px;
+      --radius-full:    9999px;
+
+      --shadow-light-small:  0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5);
+      --shadow-light-medium: 0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02);
+      --shadow-elevation-small: 0px 1px 3px 0px rgba(24,24,25,0.16);
+    }
+
+    /* ─── Reset ─── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, sans-serif;
+      background: #f5f5fa;
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; }
+
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* ─── Page Shell ─── */
+    .app-shell {
+      display: block;
+      min-height: 100vh;
+    }
+
+    /* ═══════════════════════════════════════
+       LEFT SIDEBAR  (fixed, 332px total)
+    ═══════════════════════════════════════ */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 332px;
+      padding: 24px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-card {
+      background: var(--color-bg-default);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-light-medium);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      padding: 20px;
+      gap: 0;
+    }
+
+    /* ── Logo pill ── */
+    .sidebar-logo-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 6px 14px 6px 6px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    .logo-badge {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary-main);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-text-contrast);
+      letter-spacing: -0.02em;
+    }
+
+    .logo-name {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .logo-caret {
+      font-size: 18px;
+      color: var(--color-text-tertiary);
+    }
+
+    /* ── Nav items ── */
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: var(--radius-small);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .nav-item:hover { background: var(--color-bg-secondary); }
+
+    .nav-item.active {
+      background: var(--color-bg-secondary);
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .nav-item .material-symbols-outlined {
+      font-size: 16px;
+      color: var(--color-text-tertiary);
+    }
+
+    .nav-item.active .material-symbols-outlined {
+      color: var(--color-primary-main);
+    }
+
+    /* ── Chat section ── */
+    .sidebar-chat {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border);
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-disabled);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0 12px;
+      margin-bottom: 4px;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: var(--radius-small);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .chat-item:hover { background: var(--color-bg-secondary); }
+
+    .chat-item .material-symbols-outlined {
+      font-size: 16px;
+      color: var(--color-text-disabled);
+      flex-shrink: 0;
+    }
+
+    .chat-item-text {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Footer ── */
+    .sidebar-footer {
+      padding-top: 12px;
+      border-top: 1px solid var(--color-border);
+      margin-top: 12px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: var(--radius-small);
+      cursor: pointer;
+    }
+
+    .avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-grey-300);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sidebar-user-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    /* ═══════════════════════════════════════
+       MAIN CONTENT (scrollable)
+    ═══════════════════════════════════════ */
+    .main-content {
+      margin-left: 332px;
+      margin-right: 424px;
+      min-height: 100vh;
+      padding: 40px 24px 60px;
+    }
+
+    .content-inner {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Page heading ── */
+    .page-heading {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 32px;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      margin-bottom: 24px;
+    }
+
+    .page-heading strong {
+      font-weight: 700;
+    }
+
+    /* ── Cards shared ── */
+    .card {
+      background: var(--color-bg-default);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-light-small);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    /* ═══════════════════════════════════════
+       LIVE PERFORMANCE CARD
+    ═══════════════════════════════════════ */
+    .perf-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .perf-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: var(--color-text-primary);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: #10b981;
+      flex-shrink: 0;
+    }
+
+    .filter-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 6px 12px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+    }
+
+    .filter-pill .material-symbols-outlined {
+      font-size: 14px;
+      color: var(--color-text-tertiary);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .kpi-cell {
+      background: var(--color-bg-subtle);
+      border-radius: var(--radius-medium);
+      padding: 20px;
+    }
+
+    .kpi-label-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      margin-bottom: 10px;
+    }
+
+    .kpi-label-row .material-symbols-outlined {
+      font-size: 14px;
+      color: var(--color-primary-main);
+    }
+
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 42px;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+
+    .kpi-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-success);
+      margin-bottom: 16px;
+    }
+
+    .kpi-trend .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    /* Bar chart */
+    .kpi-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 28px;
+    }
+
+    .kpi-bar {
+      flex: 1;
+      border-radius: 2px;
+      background: var(--color-indigo-100);
+    }
+
+    .kpi-bar.accent {
+      background: var(--color-indigo-500);
+    }
+
+    /* ═══════════════════════════════════════
+       AGENT ACTION CARDS
+    ═══════════════════════════════════════ */
+    .agent-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .agent-title-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .agent-icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--color-bg-info);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .agent-icon-circle .material-symbols-outlined {
+      font-size: 18px;
+      color: var(--color-primary-main);
+    }
+
+    .agent-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .agent-subtitle {
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+    }
+
+    /* Category badges */
+    .badge-row {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 18px;
+      color: var(--color-text-secondary);
+      background: var(--color-bg-default);
+      white-space: nowrap;
+    }
+
+    .cat-badge .material-symbols-outlined {
+      font-size: 12px;
+      color: var(--color-text-tertiary);
+    }
+
+    /* Metrics row */
+    .metrics-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .metric-chip {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .metric-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-small);
+      background: rgba(232, 235, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .metric-icon-wrap .material-symbols-outlined {
+      font-size: 16px;
+      color: var(--color-primary-main);
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+      color: var(--color-text-secondary);
+    }
+
+    .metric-value small {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-text-tertiary);
+    }
+
+    .metric-label {
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--color-text-tertiary);
+      margin-top: 1px;
+    }
+
+    /* Impacted lanes */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .lane-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .lane-tag {
+      padding: 4px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-secondary);
+      background: var(--color-bg-default);
+    }
+
+    .lane-tag-more {
+      background: var(--color-bg-info);
+      border-color: transparent;
+      color: var(--color-primary-main);
+      font-weight: 600;
+    }
+
+    /* Latest actions list */
+    .latest-actions {
+      margin-bottom: 16px;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 0;
+      font-size: 13px;
+      line-height: 18px;
+      color: var(--color-text-secondary);
+    }
+
+    .action-row .material-symbols-outlined {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .action-row.success .material-symbols-outlined { color: var(--color-text-success); }
+    .action-row.pending .material-symbols-outlined { color: var(--color-text-tertiary); }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-bg-secondary);
+      margin-top: 8px;
+    }
+
+    .card-footer-count {
+      font-size: 13px;
+      color: var(--color-text-tertiary);
+    }
+
+    .card-footer-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-primary-main);
+      cursor: pointer;
+    }
+
+    .card-footer-link .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    /* ═══════════════════════════════════════
+       RIGHT ACTION PANEL  (fixed, 424px total)
+    ═══════════════════════════════════════ */
+    .action-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: 424px;
+      padding: 24px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .action-panel-card {
+      background: var(--color-bg-default);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-light-medium);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* ── Panel header ── */
+    .panel-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 27px;
+      color: var(--color-gradient-pi-500);
+      margin-bottom: 16px;
+    }
+
+    /* ── Stats grid 2×2 ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .stat-cell {
+      background: var(--color-bg-subtle);
+      border-radius: var(--radius-small);
+      padding: 12px;
+    }
+
+    .stat-cell-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 18px;
+    }
+
+    .stat-label .material-symbols-outlined {
+      font-size: 14px;
+    }
+
+    .stat-filter {
+      font-size: 14px;
+      color: var(--color-text-disabled);
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--color-text-disabled);
+    }
+
+    /* ── Action log ── */
+    .action-log {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    .action-log::-webkit-scrollbar {
+      width: 4px;
+    }
+    .action-log::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .action-log::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: var(--radius-full);
+    }
+
+    .action-log-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: var(--color-text-primary);
+      margin-bottom: 16px;
+    }
+
+    .log-item {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--color-bg-secondary);
+    }
+
+    .log-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .log-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--color-primary-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .log-icon-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-primary-main);
+    }
+
+    .log-body { flex: 1; min-width: 0; }
+
+    .log-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 18px;
+      color: var(--color-text-primary);
+      margin-bottom: 1px;
+    }
+
+    .log-item-cat {
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--color-text-tertiary);
+      margin-bottom: 6px;
+    }
+
+    .log-item-desc {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .log-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .log-time {
+      font-size: 11px;
+      color: var(--color-text-disabled);
+    }
+
+    .badge-progress {
+      background: var(--color-bg-info);
+      color: var(--color-primary-main);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
+  <div class="app-shell">
+
+    <!-- ═══════════════════════════════════════
+         LEFT SIDEBAR
+    ════════════════════════════════════════ -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+
+        <!-- Logo / workspace pill -->
+        <div class="sidebar-logo-pill">
+          <div class="logo-badge">44</div>
+          <span class="logo-name">Transportation</span>
+          <span class="material-symbols-outlined logo-caret">expand_more</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+          <a class="nav-item active" href="#">
+            <span class="material-symbols-outlined">grid_view</span>
+            Overview
+          </a>
+          <a class="nav-item" href="#">
+            <span class="material-symbols-outlined">book_online</span>
+            Bookings
+          </a>
+          <a class="nav-item" href="#">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            Procurement
+          </a>
+          <a class="nav-item" href="#">
+            <span class="material-symbols-outlined">local_shipping</span>
+            Shipments
+          </a>
+          <a class="nav-item" href="#">
+            <span class="material-symbols-outlined">settings</span>
+            Settings
+          </a>
+        </nav>
+
+        <!-- Chat history -->
+        <div class="sidebar-chat">
+          <div class="sidebar-section-label">Chat</div>
+          <div class="chat-item">
+            <span class="material-symbols-outlined">chat_bubble</span>
+            <span class="chat-item-text">Compare carrier performance to opt...</span>
+          </div>
+          <div class="chat-item">
+            <span class="material-symbols-outlined">chat_bubble</span>
+            <span class="chat-item-text">Alternative route to save costs on m...</span>
+          </div>
+          <div class="chat-item">
+            <span class="material-symbols-outlined">chat_bubble</span>
+            <span class="chat-item-text">What is the estimate delay select fr...</span>
+          </div>
+        </div>
+
+        <!-- User footer -->
+        <div class="sidebar-footer">
+          <div class="sidebar-user">
+            <div class="avatar-circle">
+              <img
+                src="https://www.figma.com/api/mcp/asset/c57cb05a-b6ea-4581-9a05-56ce8c8af647"
+                alt="User avatar"
+              />
+            </div>
+            <span class="sidebar-user-name">Procurement Manager</span>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════
+         MAIN SCROLLABLE CONTENT
+    ════════════════════════════════════════ -->
+    <main class="main-content">
+      <div class="content-inner">
+
+      <!-- Page heading -->
+      <h1 class="page-heading">
+        <strong>Hi Trevor,</strong> everything is operating within plan.
+      </h1>
+
+      <!-- ── Live Performance Overview Card ── -->
+      <div class="card">
+        <div class="perf-card-header">
+          <div class="perf-card-title">
+            <div class="live-dot"></div>
+            Live performance overview
+          </div>
+          <div class="filter-pill">
+            <span class="material-symbols-outlined">calendar_today</span>
+            Last 30 days
+            <span class="material-symbols-outlined">expand_more</span>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <!-- Negotiated savings -->
+          <div class="kpi-cell">
+            <div class="kpi-label-row">
+              <span class="material-symbols-outlined">savings</span>
+              Negotiated savings
+            </div>
+            <div class="kpi-value">$98,752</div>
+            <div class="kpi-trend">
+              <span class="material-symbols-outlined">trending_up</span>
+              8% last 30 days
+            </div>
+            <div class="kpi-bars">
+              <div class="kpi-bar" style="height: 35%"></div>
+              <div class="kpi-bar" style="height: 52%"></div>
+              <div class="kpi-bar" style="height: 45%"></div>
+              <div class="kpi-bar" style="height: 68%"></div>
+              <div class="kpi-bar" style="height: 58%"></div>
+              <div class="kpi-bar accent" style="height: 100%"></div>
+            </div>
+          </div>
+
+          <!-- On-time delivery -->
+          <div class="kpi-cell">
+            <div class="kpi-label-row">
+              <span class="material-symbols-outlined">schedule</span>
+              On-time delivery
+            </div>
+            <div class="kpi-value">94%</div>
+            <div class="kpi-trend">
+              <span class="material-symbols-outlined">trending_up</span>
+              6% last 30 days
+            </div>
+            <div class="kpi-bars">
+              <div class="kpi-bar" style="height: 50%"></div>
+              <div class="kpi-bar" style="height: 62%"></div>
+              <div class="kpi-bar" style="height: 55%"></div>
+              <div class="kpi-bar" style="height: 72%"></div>
+              <div class="kpi-bar" style="height: 65%"></div>
+              <div class="kpi-bar accent" style="height: 100%"></div>
+            </div>
+          </div>
+
+          <!-- Tender acceptance rate -->
+          <div class="kpi-cell">
+            <div class="kpi-label-row">
+              <span class="material-symbols-outlined">assignment_turned_in</span>
+              Tender acceptance rate
+            </div>
+            <div class="kpi-value">92%</div>
+            <div class="kpi-trend">
+              <span class="material-symbols-outlined">trending_up</span>
+              3% last 30 days
+            </div>
+            <div class="kpi-bars">
+              <div class="kpi-bar" style="height: 55%"></div>
+              <div class="kpi-bar" style="height: 60%"></div>
+              <div class="kpi-bar" style="height: 65%"></div>
+              <div class="kpi-bar" style="height: 75%"></div>
+              <div class="kpi-bar" style="height: 70%"></div>
+              <div class="kpi-bar accent" style="height: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Agent Card 1: Finding new carriers ── -->
+      <div class="card">
+        <div class="agent-header">
+          <div class="agent-title-group">
+            <div class="agent-icon-circle">
+              <span class="material-symbols-outlined">local_shipping</span>
+            </div>
+            <div>
+              <div class="agent-title">Finding new carriers for missing pick-ups</div>
+              <div class="agent-subtitle">Original carriers could not pick-up</div>
+            </div>
+          </div>
+          <div class="badge-row">
+            <span class="cat-badge">
+              <span class="material-symbols-outlined">book_online</span>
+              Bookings
+            </span>
+            <span class="cat-badge">
+              <span class="material-symbols-outlined">shopping_cart</span>
+              Procurement
+            </span>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">inventory_2</span>
+            </div>
+            <div>
+              <div class="metric-value">10 <small>/week</small></div>
+              <div class="metric-label">Loads recovered</div>
+            </div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">payments</span>
+            </div>
+            <div>
+              <div class="metric-value">$312k</div>
+              <div class="metric-label">Cost avoided</div>
+            </div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">route</span>
+            </div>
+            <div>
+              <div class="metric-value">2</div>
+              <div class="metric-label">Lanes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label">Impacted Lanes</div>
+        <div class="lane-tags">
+          <span class="lane-tag">Tampa, FL → Salt Lake City, UT</span>
+        </div>
+
+        <div class="latest-actions">
+          <div class="section-label">Latest actions</div>
+          <div class="action-row success">
+            <span class="material-symbols-outlined">check_circle</span>
+            Finding new carrier for order 872890997 today at 5:25pm
+          </div>
+          <div class="action-row pending">
+            <span class="material-symbols-outlined">pending</span>
+            Echo Logistics couldn't pick up order 55568443, replacing with new carrier.
+          </div>
+          <div class="action-row pending">
+            <span class="material-symbols-outlined">pending</span>
+            Maverick couldn't pick up order 887545728, replacing with new carrier.
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="card-footer-count">14 actions complete</span>
+          <span class="card-footer-link">
+            View all details
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- ── Agent Card 2: Optimizing carrier contracts ── -->
+      <div class="card">
+        <div class="agent-header">
+          <div class="agent-title-group">
+            <div class="agent-icon-circle">
+              <span class="material-symbols-outlined">description</span>
+            </div>
+            <div>
+              <div class="agent-title">Optimizing carrier contracts per lane</div>
+              <div class="agent-subtitle">Based on rate, performance and tender acceptance</div>
+            </div>
+          </div>
+          <div class="badge-row">
+            <span class="cat-badge">
+              <span class="material-symbols-outlined">shopping_cart</span>
+              Procurement
+            </span>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">payments</span>
+            </div>
+            <div>
+              <div class="metric-value">$103k <small>/month</small></div>
+              <div class="metric-label">Potential savings</div>
+            </div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">trending_up</span>
+            </div>
+            <div>
+              <div class="metric-value">+16%</div>
+              <div class="metric-label">Expected visibility increase</div>
+            </div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">route</span>
+            </div>
+            <div>
+              <div class="metric-value">12</div>
+              <div class="metric-label">Lanes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label">Impacted Lanes</div>
+        <div class="lane-tags">
+          <span class="lane-tag">Miami, FL → Dallas, TX</span>
+          <span class="lane-tag">Orlando, FL → Richmond, VA</span>
+          <span class="lane-tag">Tampa, FL → Denver, CO</span>
+          <span class="lane-tag lane-tag-more">+3 more</span>
+        </div>
+
+        <div class="latest-actions">
+          <div class="section-label">Latest actions</div>
+          <div class="action-row success">
+            <span class="material-symbols-outlined">check_circle</span>
+            Analyzed carrier performance across 12 lanes, identified optimizations.
+          </div>
+          <div class="action-row pending">
+            <span class="material-symbols-outlined">pending</span>
+            Negotiating updated rate agreements with top 3 carriers on Miami → Dallas lane.
+          </div>
+          <div class="action-row pending">
+            <span class="material-symbols-outlined">pending</span>
+            Reviewing tender acceptance history for Orlando → Richmond route.
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="card-footer-count">8 actions complete</span>
+          <span class="card-footer-link">
+            View all details
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- ── Agent Card 3: Negotiating ending contracts ── -->
+      <div class="card">
+        <div class="agent-header">
+          <div class="agent-title-group">
+            <div class="agent-icon-circle">
+              <span class="material-symbols-outlined">handshake</span>
+            </div>
+            <div>
+              <div class="agent-title">Negotiating ending contracts</div>
+              <div class="agent-subtitle">Contracts expiring in the next 30 days</div>
+            </div>
+          </div>
+          <div class="badge-row">
+            <span class="cat-badge">
+              <span class="material-symbols-outlined">shopping_cart</span>
+              Procurement
+            </span>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">description</span>
+            </div>
+            <div>
+              <div class="metric-value">16</div>
+              <div class="metric-label">Contracts</div>
+            </div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">payments</span>
+            </div>
+            <div>
+              <div class="metric-value">$650k</div>
+              <div class="metric-label">Annual logistics cost</div>
+            </div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-icon-wrap">
+              <span class="material-symbols-outlined">route</span>
+            </div>
+            <div>
+              <div class="metric-value">15</div>
+              <div class="metric-label">Lanes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label">Impacted Lanes</div>
+        <div class="lane-tags">
+          <span class="lane-tag">Nashville, TN → Portland, OR</span>
+          <span class="lane-tag">Nashville, TN → Austin, TX</span>
+          <span class="lane-tag lane-tag-more">+13 more</span>
+        </div>
+
+        <div class="latest-actions">
+          <div class="section-label">Latest actions</div>
+          <div class="action-row pending">
+            <span class="material-symbols-outlined">pending</span>
+            Negotiating 2 ending contracts.
+          </div>
+          <div class="action-row pending">
+            <span class="material-symbols-outlined">pending</span>
+            Reviewing contract terms for Nashville → Austin lane with Logiflex.
+          </div>
+          <div class="action-row success">
+            <span class="material-symbols-outlined">check_circle</span>
+            Completed renewal for Chicago → Memphis contract with FastFreight.
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="card-footer-count">3 actions complete</span>
+          <span class="card-footer-link">
+            View all details
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </span>
+        </div>
+      </div>
+
+      </div><!-- /.content-inner -->
+    </main>
+
+    <!-- ═══════════════════════════════════════
+         RIGHT ACTION PANEL
+    ════════════════════════════════════════ -->
+    <aside class="action-panel">
+      <div class="action-panel-card">
+
+        <!-- Panel header with stats -->
+        <div class="panel-header">
+          <div class="panel-title">Action panel</div>
+          <div class="stats-grid">
+            <!-- Alerts -->
+            <div class="stat-cell">
+              <div class="stat-cell-header">
+                <div class="stat-label" style="color:#ef4444">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#ef4444">notifications</span>
+                  Alerts
+                </div>
+                <span class="material-symbols-outlined stat-filter">filter_list</span>
+              </div>
+              <div class="stat-value">0</div>
+              <div class="stat-sub">Actions need attention</div>
+            </div>
+            <!-- Shipments -->
+            <div class="stat-cell">
+              <div class="stat-cell-header">
+                <div class="stat-label" style="color:var(--color-primary-main)">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:var(--color-primary-main)">local_shipping</span>
+                  Shipments
+                </div>
+                <span class="material-symbols-outlined stat-filter">filter_list</span>
+              </div>
+              <div class="stat-value">53</div>
+              <div class="stat-sub">Actions in progress</div>
+            </div>
+            <!-- Procurement -->
+            <div class="stat-cell">
+              <div class="stat-cell-header">
+                <div class="stat-label" style="color:var(--color-gradient-pi-500)">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:var(--color-gradient-pi-500)">shopping_cart</span>
+                  Procurement
+                </div>
+                <span class="material-symbols-outlined stat-filter">filter_list</span>
+              </div>
+              <div class="stat-value">241</div>
+              <div class="stat-sub">Actions in progress</div>
+            </div>
+            <!-- Bookings -->
+            <div class="stat-cell">
+              <div class="stat-cell-header">
+                <div class="stat-label" style="color:#2563eb">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#2563eb">book_online</span>
+                  Bookings
+                </div>
+                <span class="material-symbols-outlined stat-filter">filter_list</span>
+              </div>
+              <div class="stat-value">32</div>
+              <div class="stat-sub">Actions in progress</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action log -->
+        <div class="action-log">
+          <div class="action-log-title">Action log</div>
+
+          <div class="log-item">
+            <div class="log-icon"><div class="log-icon-dot"></div></div>
+            <div class="log-body">
+              <div class="log-item-title">Finding a new carrier</div>
+              <div class="log-item-cat">Bookings</div>
+              <div class="log-item-desc">Echo Logistics couldn't pick up order 55568443, replacing with new carrier.</div>
+              <div class="log-item-footer">
+                <span class="log-time">Jun 11, 2026 · 10:09 pm</span>
+                <span class="badge-progress">In progress</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="log-item">
+            <div class="log-icon"><div class="log-icon-dot"></div></div>
+            <div class="log-body">
+              <div class="log-item-title">Renegotiating with existing carrier</div>
+              <div class="log-item-cat">Procurement</div>
+              <div class="log-item-desc">Renegotiating contract with Maverick on Nashville, TN → Portland, OR based on market rate.</div>
+              <div class="log-item-footer">
+                <span class="log-time">Jun 11, 2026 · 10:09 pm</span>
+                <span class="badge-progress">In progress</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="log-item">
+            <div class="log-icon"><div class="log-icon-dot"></div></div>
+            <div class="log-body">
+              <div class="log-item-title">Negotiating contracts</div>
+              <div class="log-item-cat">Procurement</div>
+              <div class="log-item-desc">Negotiating 2 ending contracts.</div>
+              <div class="log-item-footer">
+                <span class="log-time">Jun 11, 2026 · 10:08 pm</span>
+                <span class="badge-progress">In progress</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="log-item">
+            <div class="log-icon"><div class="log-icon-dot"></div></div>
+            <div class="log-body">
+              <div class="log-item-title">Replacing carrier</div>
+              <div class="log-item-cat">Procurement</div>
+              <div class="log-item-desc">Replacing Logiflex on Nashville, TN → Austin, TX based on performance analysis.</div>
+              <div class="log-item-footer">
+                <span class="log-time">Jun 11, 2026 · 10:07 pm</span>
+                <span class="badge-progress">In progress</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="log-item">
+            <div class="log-icon"><div class="log-icon-dot"></div></div>
+            <div class="log-body">
+              <div class="log-item-title">Updating carrier preferences</div>
+              <div class="log-item-cat">Bookings</div>
+              <div class="log-item-desc">Adjusting carrier ranking for Tampa → Denver lane based on recent on-time delivery data.</div>
+              <div class="log-item-footer">
+                <span class="log-time">Jun 11, 2026 · 10:05 pm</span>
+                <span class="badge-progress">In progress</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="log-item">
+            <div class="log-icon"><div class="log-icon-dot"></div></div>
+            <div class="log-body">
+              <div class="log-item-title">Contract renewal outreach</div>
+              <div class="log-item-cat">Procurement</div>
+              <div class="log-item-desc">Sending renewal proposal to FastFreight for the Chicago → Memphis lane.</div>
+              <div class="log-item-footer">
+                <span class="log-time">Jun 11, 2026 · 09:58 pm</span>
+                <span class="badge-progress">In progress</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </aside>
+
+  </div>
 </body>
 </html>

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Design System Docs",
+      "runtimeExecutable": "/usr/sbin/httpd",
+      "runtimeArgs": ["-f", "/private/tmp/d44-tms-httpd.conf", "-DFOREGROUND"],
+      "port": 3400
+    },
+    {
+      "name": "Transportation App v1",
+      "runtimeExecutable": "/usr/sbin/httpd",
+      "runtimeArgs": ["-f", "/private/tmp/d44-tms-httpd.conf", "-DFOREGROUND"],
+      "port": 3400
+    }
+  ]
+}

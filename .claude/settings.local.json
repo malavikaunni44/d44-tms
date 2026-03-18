@@ -25,7 +25,13 @@
       "Bash(git commit:*)",
       "Bash(git push -u origin transportation-app-v1.1)",
       "Bash(git remote set-url origin git@github.com:bernardolcr/d44-TMS.git)",
-      "Bash(gh auth status)"
+      "Bash(gh auth status)",
+      "mcp__figma__get_screenshot",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(type\\(d\\), len\\(d\\) if isinstance\\(d,list\\) else ''not list''\\)\")",
+      "Bash(mkdir -p /private/tmp/d44-tms-www/prototypes/transportation-app-v1)",
+      "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/prototypes/transportation-app-v1/index.html /private/tmp/d44-tms-www/prototypes/transportation-app-v1/)",
+      "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-system/index.html /private/tmp/d44-tms-www/)",
+      "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-tokens.json /private/tmp/d44-tms-www/)"
     ]
   }
 }
