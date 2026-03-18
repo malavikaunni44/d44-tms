@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>d44-TMS Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-primary-main:   #4f4cf3;
+      --color-primary-hover:  #3836d4;
+      --color-primary-active: #16147f;
+      --color-bg-default:     #ffffff;
+      --color-bg-secondary:   #f3f4f6;
+      --color-bg-tertiary:    #e5e7eb;
+      --color-bg-danger:      #fef2f2;
+      --color-bg-success:     #ecfdf5;
+      --color-bg-info:        #e8ebff;
+      --color-bg-warning:     #fef3c7;
+      --color-border:         #e5e7eb;
+      --color-text-primary:   #030712;
+      --color-text-secondary: #374151;
+      --color-text-tertiary:  #6b7280;
+      --color-text-danger:    #b91c1c;
+      --color-text-success:   #047857;
+      --color-text-warning:   #ba7500;
+      --color-text-disabled:  #9ca3af;
+      --color-text-info:      #5f5cff;
+      --color-bg-subtle:      #f9fafb;
+      --color-bg-sidenav:     #1a3c61;
+      --color-border-danger:  #991b1b;
+
+      --shadow-small:  0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5);
+      --shadow-medium: 0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02);
+      --shadow-shadows-small:   0px 1px 2px 0px rgba(61,58,180,0.4), 0px -1px 2px 0px rgba(61,58,180,0.1);
+      --shadow-elevation-small: 0px 1px 3px 0px rgba(24,24,25,0.16);
+      --effect-input-focus:     0px 0px 0px 3px #a5aee8, 0px 0px 0px 1px #ffffff;
+
+      --sidebar-width: 240px;
+      --font: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--color-bg-default);
+      color: var(--color-text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────────────────── */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ─── Sidebar ─────────────────────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--color-border);
+      background: var(--color-bg-default);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 0; }
+
+    .sidebar-logo {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .sidebar-logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--color-primary-main);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-icon svg { width: 14px; height: 14px; }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0;
+      margin-top: 1px;
+    }
+
+    .sidebar-nav {
+      padding: 16px 12px;
+      flex: 1;
+    }
+
+    .nav-group {
+      margin-bottom: 24px;
+    }
+
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0 8px;
+      margin-bottom: 4px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      transition: background 0.1s, color 0.1s;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      background: var(--color-bg-secondary);
+      color: var(--color-text-primary);
+    }
+
+    .nav-link.active {
+      background: var(--color-bg-info);
+      color: var(--color-primary-main);
+      font-weight: 600;
+    }
+
+    .nav-link-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .nav-link.active .nav-link-dot {
+      background: var(--color-primary-main);
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .sidebar-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+    }
+
+    .sidebar-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+    }
+
+    /* ─── Main Content ────────────────────────────────────────────────────── */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────────────────── */
+    .hero {
+      padding: 72px 64px 64px;
+      background: linear-gradient(135deg, #f8f8ff 0%, #eeeeff 40%, #e8ebff 100%);
+      border-bottom: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(79,76,243,0.07) 0%, transparent 70%);
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--color-bg-info);
+      border: 1px solid rgba(79,76,243,0.2);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-primary-main);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--color-primary-main);
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--color-text-primary);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--color-primary-main) 0%, #6340cd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 560px;
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+    }
+
+    .hero-meta-item svg { opacity: 0.6; }
+
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-primary-main);
+      text-decoration: none;
+      padding: 6px 12px;
+      background: var(--color-bg-info);
+      border-radius: 6px;
+      border: 1px solid rgba(79,76,243,0.2);
+      transition: background 0.15s;
+    }
+
+    .hero-link:hover { background: rgba(79,76,243,0.15); }
+
+    /* ─── Section ─────────────────────────────────────────────────────────── */
+    .section {
+      padding: 64px 64px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    .section-token-count {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* ─── Subsection ──────────────────────────────────────────────────────── */
+    .subsection {
+      margin-bottom: 48px;
+    }
+
+    .subsection:last-child { margin-bottom: 0; }
+
+    .subsection-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subsection-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    /* ─── Color Swatches ──────────────────────────────────────────────────── */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .swatch-grid.wide {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .swatch-card {
+      border-radius: 12px;
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+    }
+
+    .swatch-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-small);
+    }
+
+    .swatch-block {
+      height: 80px;
+      position: relative;
+    }
+
+    .swatch-copy-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.12);
+      opacity: 0;
+      transition: opacity 0.15s;
+      font-size: 11px;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .swatch-card:hover .swatch-copy-hint { opacity: 1; }
+
+    .swatch-info {
+      padding: 10px 12px;
+      background: var(--color-bg-default);
+    }
+
+    .swatch-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 3px;
+    }
+
+    .swatch-hex {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--color-text-tertiary);
+      font-variant-numeric: tabular-nums;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .swatch-desc {
+      font-size: 10px;
+      color: var(--color-text-tertiary);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* Checkerboard for transparent swatches */
+    .swatch-block.transparent {
+      background-image:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+    }
+
+    .swatch-block.transparent .swatch-color-overlay {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Copied toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--color-text-primary);
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 8px;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Typography ──────────────────────────────────────────────────────── */
+    .type-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 280px;
+      gap: 24px;
+      align-items: center;
+      padding: 20px 24px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: background 0.1s, border-color 0.1s;
+    }
+
+    .type-row:hover {
+      background: var(--color-bg-secondary);
+      border-color: var(--color-border);
+    }
+
+    .type-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .type-style-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .type-token {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: var(--color-bg-tertiary);
+      border-radius: 4px;
+      padding: 2px 6px;
+      display: inline-block;
+    }
+
+    .type-example {
+      color: var(--color-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .type-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    .type-spec-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .type-spec {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .type-spec-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .type-spec-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .type-divider {
+      height: 1px;
+      background: var(--color-border);
+      margin: 2px 24px;
+      opacity: 0.6;
+    }
+
+    /* ─── Spacing Scale ───────────────────────────────────────────────────── */
+    .spacing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .spacing-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 60px;
+      gap: 20px;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      transition: background 0.1s;
+    }
+
+    .spacing-row:hover { background: var(--color-bg-secondary); }
+
+    .spacing-token {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .spacing-bar-wrap {
+      height: 28px;
+      display: flex;
+      align-items: center;
+    }
+
+    .spacing-bar {
+      height: 20px;
+      background: linear-gradient(90deg, var(--color-primary-main), #6340cd);
+      border-radius: 4px;
+      min-width: 2px;
+      position: relative;
+    }
+
+    .spacing-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-tertiary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      text-align: right;
+    }
+
+    /* ─── Border Radius ───────────────────────────────────────────────────── */
+    .radius-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+
+    .radius-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 28px 20px;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      background: var(--color-bg-secondary);
+      transition: box-shadow 0.15s;
+    }
+
+    .radius-card:hover { box-shadow: var(--shadow-small); }
+
+    .radius-box {
+      width: 72px;
+      height: 72px;
+      background: white;
+      border: 2px solid var(--color-primary-main);
+    }
+
+    .radius-info {
+      text-align: center;
+    }
+
+    .radius-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .radius-value {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .radius-usage {
+      font-size: 11px;
+      color: var(--color-text-tertiary);
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    /* ─── Focus ring demo ──────────────────────────────────────────────────── */
+    .focus-demo-input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--color-text-primary);
+      outline: none;
+      box-shadow: var(--effect-input-focus);
+      background: white;
+      pointer-events: none;
+    }
+
+    /* ─── Shadows ─────────────────────────────────────────────────────────── */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .shadow-card {
+      padding: 40px 36px;
+      border-radius: 16px;
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .shadow-demo {
+      width: 100%;
+      height: 100px;
+      border-radius: 12px;
+      background: white;
+    }
+
+    .shadow-token {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .shadow-desc-text {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .shadow-css {
+      font-size: 11px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: var(--color-text-tertiary);
+      background: var(--color-bg-secondary);
+      padding: 12px 14px;
+      border-radius: 8px;
+      line-height: 1.7;
+      word-break: break-all;
+      border: 1px solid var(--color-border);
+    }
+
+    /* ─── Token Pill ──────────────────────────────────────────────────────── */
+    .token-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      background: var(--color-bg-tertiary);
+      border-radius: 100px;
+      padding: 2px 8px 2px 6px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .token-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ─── Coming Soon ─────────────────────────────────────────────────────── */
+    .coming-soon {
+      padding: 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 12px;
+      border: 2px dashed var(--color-border);
+      border-radius: 16px;
+      background: var(--color-bg-secondary);
+    }
+
+    .coming-soon-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--color-bg-info);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .coming-soon h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .coming-soon p {
+      font-size: 14px;
+      color: var(--color-text-tertiary);
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+    /* ─── Palette rows ────────────────────────────────────────────────────── */
+    .palette-row {
+      display: flex;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      margin-bottom: 12px;
+    }
+
+    .palette-cell {
+      flex: 1;
+      height: 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      position: relative;
+      transition: flex 0.2s;
+    }
+
+    .palette-cell:hover { flex: 1.4; }
+
+    .palette-cell-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.04em;
+    }
+
+    .palette-cell-hex {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .palette-cell.light .palette-cell-label { color: rgba(0,0,0,0.5); }
+    .palette-cell.light .palette-cell-hex   { color: rgba(0,0,0,0.35); }
+
+    /* ─── Component Demos ───────────────────────────────────────────────────── */
+
+    .comp-demo {
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .comp-demo + .comp-demo { margin-top: 8px; }
+    .comp-demo.stack { flex-direction: column; align-items: flex-start; }
+    .comp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+    }
+    .comp-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-tertiary);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      min-width: 96px;
+      flex-shrink: 0;
+    }
+
+    /* ─── Buttons ──────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      border-radius: 8px;
+      transition: background 0.12s, box-shadow 0.12s, color 0.12s, border-color 0.12s, filter 0.12s, opacity 0.12s;
+      white-space: nowrap;
+      text-decoration: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+    }
+    .btn-md { height: 36px; padding: 0 16px; font-size: 14px; }
+    .btn-sm { height: 28px; padding: 0 12px; font-size: 14px; }
+    .btn-xs { height: 24px; padding: 0  8px; font-size: 12px; letter-spacing: 0; }
+
+    .btn-primary { background: var(--color-primary-main); color: #fff; }
+    .btn-primary:hover  { background: var(--color-primary-hover); }
+    .btn-primary:active { background: var(--color-primary-active); }
+
+    .btn-secondary { background: var(--color-bg-default); color: var(--color-text-primary); border-color: var(--color-border); }
+    .btn-secondary:hover  { background: var(--color-bg-subtle); border-color: #d1d5db; }
+    .btn-secondary:active { background: var(--color-bg-secondary); }
+
+    .btn-tertiary { background: transparent; color: var(--color-primary-main); }
+    .btn-tertiary:hover  { background: var(--color-bg-info); }
+    .btn-tertiary:active { background: var(--color-bg-secondary); }
+
+    .btn-danger { background: var(--color-text-danger); color: #fff; }
+    .btn-danger:hover  { background: #991b1b; }
+    .btn-danger:active { background: #7f1d1d; }
+
+    .btn-secondary-danger { background: var(--color-bg-default); color: var(--color-text-danger); border-color: var(--color-border-danger); }
+    .btn-secondary-danger:hover  { background: var(--color-bg-danger); }
+    .btn-secondary-danger:active { background: #fee2e2; }
+
+    .btn-tertiary-danger { background: transparent; color: var(--color-text-danger); }
+    .btn-tertiary-danger:hover  { background: var(--color-bg-danger); }
+    .btn-tertiary-danger:active { background: #fee2e2; }
+
+    .btn-brand { background: linear-gradient(90deg, #0072ec 0%, #4e00c6 60%, #8c18e2 100%); color: #fff; }
+    .btn-brand:hover  { filter: brightness(1.08); }
+    .btn-brand:active { filter: brightness(0.9); }
+
+    .btn-ai { background: linear-gradient(90deg, #8c18e2 0%, #4b38d0 50%, #4f4cf3 100%); color: #fff; }
+    .btn-ai:hover  { filter: brightness(1.08); }
+    .btn-ai:active { filter: brightness(0.9); }
+
+    .btn:focus-visible { outline: none; box-shadow: var(--effect-input-focus); }
+    .btn:disabled, .btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    /* ─── Icon Buttons ─────────────────────────────────────────────────────── */
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: var(--font);
+      border-radius: 8px;
+      transition: background 0.12s, box-shadow 0.12s, color 0.12s, opacity 0.12s;
+      flex-shrink: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .icon-btn-md { width: 36px; height: 36px; }
+    .icon-btn-sm { width: 28px; height: 28px; }
+    .icon-btn-xs { width: 24px; height: 24px; }
+
+    .icon-btn-primary { background: var(--color-primary-main); color: #fff; }
+    .icon-btn-primary:hover  { background: var(--color-primary-hover); }
+    .icon-btn-primary:active { background: var(--color-primary-active); }
+
+    .icon-btn-secondary { background: var(--color-bg-default); color: var(--color-text-primary); border-color: var(--color-border); }
+    .icon-btn-secondary:hover  { background: var(--color-bg-subtle); border-color: #d1d5db; }
+    .icon-btn-secondary:active { background: var(--color-bg-secondary); }
+
+    .icon-btn-tertiary { background: transparent; color: var(--color-text-secondary); }
+    .icon-btn-tertiary:hover  { background: var(--color-bg-subtle); }
+    .icon-btn-tertiary:active { background: var(--color-bg-secondary); }
+
+    .icon-btn-danger { background: var(--color-text-danger); color: #fff; }
+    .icon-btn-danger:hover { background: #991b1b; }
+
+    .icon-btn-round { border-radius: 9999px; }
+    .icon-btn:focus-visible { outline: none; box-shadow: var(--effect-input-focus); }
+    .icon-btn:disabled, .icon-btn[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    /* ─── Chips & Tags ─────────────────────────────────────────────────────── */
+    .label-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      height: 20px; padding: 0 6px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0;
+      border-radius: 4px; white-space: nowrap; line-height: 1;
+    }
+    .label-tag-default { background: var(--color-bg-secondary);  color: var(--color-text-secondary); }
+    .label-tag-primary { background: var(--color-bg-info);       color: var(--color-text-info); }
+    .label-tag-success { background: var(--color-bg-success);    color: var(--color-text-success); }
+    .label-tag-danger  { background: var(--color-bg-danger);     color: var(--color-text-danger); }
+    .label-tag-warning { background: var(--color-bg-warning);    color: var(--color-text-warning); }
+
+    .value-tag {
+      display: inline-flex; align-items: stretch;
+      height: 20px; font-size: 12px; font-weight: 600;
+      border-radius: 4px; border: 1px solid var(--color-border);
+      overflow: hidden; white-space: nowrap; line-height: 1;
+    }
+    .value-tag-key { padding: 0 6px; background: var(--color-bg-secondary); color: var(--color-text-tertiary); display: flex; align-items: center; }
+    .value-tag-val { padding: 0 6px; background: var(--color-bg-default); color: var(--color-text-primary); border-left: 1px solid var(--color-border); display: flex; align-items: center; }
+
+    .text-pill {
+      display: inline-flex; align-items: center;
+      height: 22px; padding: 0 10px;
+      font-size: 12px; font-weight: 500;
+      border-radius: 9999px;
+      background: var(--color-bg-secondary); color: var(--color-text-secondary);
+      border: 1px solid var(--color-border); white-space: nowrap; line-height: 1;
+    }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 26px; padding: 0 10px;
+      font-size: 12px; font-weight: 500; border-radius: 9999px;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-default); color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s;
+      white-space: nowrap; user-select: none; line-height: 1;
+    }
+    .status-pill:hover { background: var(--color-bg-subtle); }
+    .status-pill.active { background: var(--color-bg-info); border-color: var(--color-primary-main); color: var(--color-text-info); }
+
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .pill-dot-default { background: var(--color-text-disabled); }
+    .pill-dot-primary { background: var(--color-primary-main); }
+    .pill-dot-success { background: var(--color-text-success); }
+    .pill-dot-danger  { background: var(--color-text-danger); }
+    .pill-dot-warning { background: #faa30f; }
+
+    .chip-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      height: 24px; padding: 0 4px 0 8px;
+      font-size: 12px; font-weight: 500; border-radius: 4px;
+      background: var(--color-bg-secondary); color: var(--color-text-secondary);
+      border: 1px solid var(--color-border); white-space: nowrap; line-height: 1;
+    }
+    .chip-tag-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 16px; height: 16px; border: none; background: transparent;
+      cursor: pointer; color: var(--color-text-tertiary);
+      border-radius: 3px; padding: 0;
+      transition: color 0.1s, background 0.1s; flex-shrink: 0;
+    }
+    .chip-tag-btn:hover { color: var(--color-text-primary); background: var(--color-bg-tertiary); }
+
+    /* ─── Avatars ───────────────────────────────────────────────────────────── */
+    .avatar {
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; font-family: var(--font); font-weight: 700;
+      letter-spacing: -0.01em; flex-shrink: 0; overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-xl { width: 48px; height: 48px; font-size: 18px; }
+    .avatar-lg { width: 40px; height: 40px; font-size: 15px; }
+    .avatar-md { width: 32px; height: 32px; font-size: 12px; }
+    .avatar-sm { width: 24px; height: 24px; font-size: 10px; }
+
+    /* Default (solid) */
+    .avatar-primary-def   { background: var(--color-primary-main);    color: #fff; }
+    .avatar-success-def   { background: var(--color-text-success);    color: #fff; }
+    .avatar-danger-def    { background: var(--color-text-danger);     color: #fff; }
+    .avatar-warning-def   { background: #faa30f;                      color: #fff; }
+    .avatar-neutral-l-def { background: var(--color-text-disabled);   color: #fff; }
+    .avatar-neutral-d-def { background: var(--color-text-secondary);  color: #fff; }
+    /* Subtle (tinted) */
+    .avatar-primary-sub   { background: var(--color-bg-info);         color: var(--color-primary-main); }
+    .avatar-success-sub   { background: var(--color-bg-success);      color: var(--color-text-success); }
+    .avatar-danger-sub    { background: var(--color-bg-danger);       color: var(--color-text-danger); }
+    .avatar-warning-sub   { background: var(--color-bg-warning);      color: var(--color-text-warning); }
+    .avatar-neutral-l-sub { background: var(--color-bg-secondary);    color: var(--color-text-tertiary); }
+    .avatar-neutral-d-sub { background: #e9ebef;                      color: var(--color-text-secondary); }
+    /* Secondary (outlined) */
+    .avatar-primary-out   { background: var(--color-bg-default); color: var(--color-primary-main);    border: 1.5px solid var(--color-primary-main); }
+    .avatar-success-out   { background: var(--color-bg-default); color: var(--color-text-success);   border: 1.5px solid var(--color-text-success); }
+    .avatar-danger-out    { background: var(--color-bg-default); color: var(--color-text-danger);    border: 1.5px solid var(--color-text-danger); }
+    .avatar-warning-out   { background: var(--color-bg-default); color: var(--color-text-warning);   border: 1.5px solid #faa30f; }
+    .avatar-neutral-l-out { background: var(--color-bg-default); color: var(--color-text-tertiary);  border: 1.5px solid var(--color-text-disabled); }
+    .avatar-neutral-d-out { background: var(--color-bg-default); color: var(--color-text-secondary); border: 1.5px solid var(--color-text-secondary); }
+
+    .avatar-group { display: inline-flex; flex-direction: row-reverse; }
+    .avatar-group .avatar { margin-left: -8px; border: 2px solid var(--color-bg-default); }
+    .avatar-group .avatar:last-child { margin-left: 0; }
+
+    /* ─── Inputs ────────────────────────────────────────────────────────────── */
+    .input-wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; width: 100%; max-width: 320px; }
+    .input-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); letter-spacing: -0.01em; }
+    .input-helper { font-size: 12px; color: var(--color-text-tertiary); }
+    .input-error { font-size: 12px; color: var(--color-text-danger); display: flex; align-items: center; gap: 4px; }
+
+    .field {
+      display: block; width: 100%;
+      border: 1px solid var(--color-border); border-radius: 8px;
+      background: var(--color-bg-default); color: var(--color-text-primary);
+      font-family: var(--font);
+      transition: border-color 0.12s, box-shadow 0.12s, background 0.12s;
+      outline: none;
+    }
+    .field-lg { height: 48px; padding: 0 14px; font-size: 16px; }
+    .field-md { height: 40px; padding: 0 12px; font-size: 14px; }
+    .field-sm { height: 32px; padding: 0 10px; font-size: 14px; }
+    .field::placeholder { color: var(--color-text-disabled); }
+    .field:hover        { border-color: #d1d5db; }
+    .field:focus        { border-color: var(--color-primary-main); box-shadow: var(--effect-input-focus); }
+    .field.is-danger    { border-color: var(--color-border-danger); }
+    .field.is-danger:focus { box-shadow: 0px 0px 0px 3px rgba(185,28,28,0.15), 0px 0px 0px 1px #fff; }
+    .field:disabled     { background: var(--color-bg-secondary); color: var(--color-text-disabled); cursor: not-allowed; }
+
+    .field-icon-wrap { position: relative; display: flex; align-items: center; width: 100%; max-width: 320px; }
+    .field-icon-lead, .field-icon-trail {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      color: var(--color-text-tertiary); pointer-events: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .field-icon-lead  { left: 12px; }
+    .field-icon-trail { right: 12px; }
+    .field-icon-wrap .field { width: 100%; }
+    .field-icon-wrap.has-lead  .field { padding-left: 36px; }
+    .field-icon-wrap.has-trail .field { padding-right: 36px; }
+
+    textarea.field { height: auto; min-height: 80px; padding: 10px 12px; resize: vertical; line-height: 1.5; }
+
+    select.field {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center;
+      padding-right: 36px; cursor: pointer;
+    }
+    select.field:disabled { cursor: not-allowed; }
+
+    /* ─── Material Symbols ─────────────────────────────────────────────────── */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      display: inline-flex;
+      line-height: 1;
+      vertical-align: middle;
+      user-select: none;
+      font-size: 20px;
+    }
+    .btn .material-symbols-outlined              { font-size: 18px; }
+    .icon-btn-md .material-symbols-outlined      { font-size: 20px; }
+    .icon-btn-sm .material-symbols-outlined      { font-size: 18px; }
+    .icon-btn-xs .material-symbols-outlined      { font-size: 16px; }
+    .chip-tag-btn .material-symbols-outlined     { font-size: 14px; }
+    .avatar .material-symbols-outlined           { font-size: 1.4em; }
+    .field-icon-lead .material-symbols-outlined,
+    .field-icon-trail .material-symbols-outlined { font-size: 18px; }
+    .input-error .material-symbols-outlined      { font-size: 14px; }
+
+    /* ─── Scrollspy active ────────────────────────────────────────────────── */
+    .section[data-section] { scroll-margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a class="sidebar-logo-mark" href="#">
+        <div class="logo-icon">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 7L7 2L12 7L7 12L2 7Z" fill="white" fill-opacity="0.9"/>
+            <circle cx="7" cy="7" r="2" fill="white"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">d44-TMS</span>
+          <span class="logo-sub">Design System</span>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <div class="nav-group-label">Foundation</div>
+        <a class="nav-link active" href="#colors" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Colors
+        </a>
+        <a class="nav-link" href="#typography" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Typography
+        </a>
+        <a class="nav-link" href="#spacing" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Spacing
+        </a>
+        <a class="nav-link" href="#radius" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Border Radius
+        </a>
+        <a class="nav-link" href="#shadows" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Shadows
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-label">Components</div>
+        <a class="nav-link" href="#buttons" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Buttons
+        </a>
+        <a class="nav-link" href="#icon-buttons" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Icon Buttons
+        </a>
+        <a class="nav-link" href="#chips" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Chips &amp; Tags
+        </a>
+        <a class="nav-link" href="#avatars" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Avatars
+        </a>
+        <a class="nav-link" href="#inputs" onclick="setActive(this)">
+          <span class="nav-link-dot"></span>Inputs
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="sidebar-badge">
+        <span class="sidebar-badge-dot"></span>
+        v1.0 · March 2026
+      </span>
+    </div>
+  </aside>
+
+  <!-- ── Main ──────────────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+    <div class="hero">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Manifest Material Design System
+      </div>
+      <h1>Design <span>Tokens</span> &amp;<br>Foundation</h1>
+      <p class="hero-desc">
+        The single source of truth for colors, typography, spacing, and visual styles powering the d44-TMS product suite. All values are derived from the Figma design system.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="1" width="12" height="12" rx="3" stroke="#6b7280" stroke-width="1.5"/>
+            <path d="M4 7h6M7 4v6" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Inter · 4px grid · Indigo brand
+        </div>
+        <a class="hero-link" href="https://www.figma.com/design/Tulc1hjAI8hu7AeyGONCsq/Manifest-Material-Design-System" target="_blank">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M5 2H2.5A.5.5 0 002 2.5v7a.5.5 0 00.5.5h7a.5.5 0 00.5-.5V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M7 2h3v3M10 2L6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          View in Figma
+        </a>
+        <a class="hero-link" href="design-tokens.json" target="_blank">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M9 4H7V2H3a1 1 0 00-1 1v6a1 1 0 001 1h6a1 1 0 001-1V4z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7 2l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          design-tokens.json
+        </a>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────── COLORS ─────────────────────────────── -->
+    <section class="section" id="colors" data-section="colors">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Foundation · 01</div>
+          <h2 class="section-title">Colors</h2>
+          <p class="section-desc">Semantic color tokens mapped from the Manifest palette. Always use these tokens — never hardcode raw hex values in components.</p>
+        </div>
+        <span class="section-token-count">40 tokens</span>
+      </div>
+
+      <!-- Primary -->
+      <div class="subsection">
+        <div class="subsection-title">Primary</div>
+        <div class="swatch-grid">
+          <div class="swatch-card" onclick="copyColor('#4f4cf3', 'primary.main')">
+            <div class="swatch-block" style="background:#4f4cf3">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary Main</div>
+              <div class="swatch-hex">#4f4cf3</div>
+              <div class="swatch-desc">Buttons &amp; key UI elements</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#3836d4', 'primary.hover')">
+            <div class="swatch-block" style="background:#3836d4">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary Hover</div>
+              <div class="swatch-hex">#3836d4</div>
+              <div class="swatch-desc">Hover state</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#16147f', 'primary.active')">
+            <div class="swatch-block" style="background:#16147f">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary Active</div>
+              <div class="swatch-hex">#16147f</div>
+              <div class="swatch-desc">Pressed state</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backgrounds -->
+      <div class="subsection">
+        <div class="subsection-title">Backgrounds</div>
+        <div class="swatch-grid">
+          <div class="swatch-card" onclick="copyColor('#ffffff', 'background.default')">
+            <div class="swatch-block" style="background:#ffffff; border-bottom:1px solid #e5e7eb">
+              <div class="swatch-copy-hint" style="background:rgba(0,0,0,0.08); color:#374151">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Default</div>
+              <div class="swatch-hex">#ffffff</div>
+              <div class="swatch-desc">Page &amp; surface bg</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#f3f4f6', 'background.secondary')">
+            <div class="swatch-block" style="background:#f3f4f6">
+              <div class="swatch-copy-hint" style="color:#374151">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Secondary</div>
+              <div class="swatch-hex">#f3f4f6</div>
+              <div class="swatch-desc">Secondary surfaces</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#e5e7eb', 'background.tertiary')">
+            <div class="swatch-block" style="background:#e5e7eb">
+              <div class="swatch-copy-hint" style="color:#374151">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Tertiary</div>
+              <div class="swatch-hex">#e5e7eb</div>
+              <div class="swatch-desc">Card slots, dividers</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#fef2f2', 'background.danger')">
+            <div class="swatch-block" style="background:#fef2f2; border-bottom:1px solid #fecaca">
+              <div class="swatch-copy-hint" style="color:#991b1b">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Danger</div>
+              <div class="swatch-hex">#fef2f2</div>
+              <div class="swatch-desc">Error state surface</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#ecfdf5', 'background.success')">
+            <div class="swatch-block" style="background:#ecfdf5; border-bottom:1px solid #a7f3d0">
+              <div class="swatch-copy-hint" style="color:#065f46">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Success</div>
+              <div class="swatch-hex">#ecfdf5</div>
+              <div class="swatch-desc">Success state surface</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#e8ebff', 'background.info')">
+            <div class="swatch-block" style="background:#e8ebff; border-bottom:1px solid #c7d2fe">
+              <div class="swatch-copy-hint" style="color:#3730a3">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Info</div>
+              <div class="swatch-hex">#e8ebff</div>
+              <div class="swatch-desc">Info state surface</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#fef3c7', 'background.warning')">
+            <div class="swatch-block" style="background:#fef3c7; border-bottom:1px solid #fde68a">
+              <div class="swatch-copy-hint" style="color:#92400e">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Warning</div>
+              <div class="swatch-hex">#fef3c7</div>
+              <div class="swatch-desc">Warning state surface</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('rgba(9,21,33,0.6)', 'background.overlay')">
+            <div class="swatch-block transparent">
+              <div class="swatch-color-overlay" style="background:rgba(9,21,33,0.6)"></div>
+              <div class="swatch-copy-hint">Copy value</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Overlay</div>
+              <div class="swatch-hex">rgba(9,21,33,0.6)</div>
+              <div class="swatch-desc">Modal backdrop</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#f9fafb', 'background.subtle')">
+            <div class="swatch-block" style="background:#f9fafb; border-bottom:1px solid #e5e7eb">
+              <div class="swatch-copy-hint" style="background:rgba(0,0,0,0.08); color:#374151">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Subtle</div>
+              <div class="swatch-hex">#f9fafb</div>
+              <div class="swatch-desc">Off-white, one step above default</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#1a3c61', 'background.sideNav')">
+            <div class="swatch-block" style="background:#1a3c61">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Side Nav</div>
+              <div class="swatch-hex">#1a3c61</div>
+              <div class="swatch-desc">Navigation panel background</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text & Icons -->
+      <div class="subsection">
+        <div class="subsection-title">Text &amp; Icons</div>
+        <div class="swatch-grid">
+          <div class="swatch-card" onclick="copyColor('#030712', 'text.primary')">
+            <div class="swatch-block" style="background:#030712">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary</div>
+              <div class="swatch-hex">#030712</div>
+              <div class="swatch-desc">Default body text</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#374151', 'text.secondary')">
+            <div class="swatch-block" style="background:#374151">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Secondary</div>
+              <div class="swatch-hex">#374151</div>
+              <div class="swatch-desc">Secondary text</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#6b7280', 'text.tertiary')">
+            <div class="swatch-block" style="background:#6b7280">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Tertiary</div>
+              <div class="swatch-hex">#6b7280</div>
+              <div class="swatch-desc">Subdued &amp; placeholder</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#9ca3af', 'text.disabled')">
+            <div class="swatch-block" style="background:#9ca3af">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Disabled</div>
+              <div class="swatch-hex">#9ca3af</div>
+              <div class="swatch-desc">Disabled state</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#b91c1c', 'text.danger')">
+            <div class="swatch-block" style="background:#b91c1c">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Danger</div>
+              <div class="swatch-hex">#b91c1c</div>
+              <div class="swatch-desc">Error messages</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#047857', 'text.success')">
+            <div class="swatch-block" style="background:#047857">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Success</div>
+              <div class="swatch-hex">#047857</div>
+              <div class="swatch-desc">Success messages</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#ba7500', 'text.warning')">
+            <div class="swatch-block" style="background:#ba7500">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Warning</div>
+              <div class="swatch-hex">#ba7500</div>
+              <div class="swatch-desc">Warning messages</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#5f5cff', 'text.info')">
+            <div class="swatch-block" style="background:#5f5cff">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Info</div>
+              <div class="swatch-hex">#5f5cff</div>
+              <div class="swatch-desc">Info text &amp; icons</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#ffffff', 'text.contrast')">
+            <div class="swatch-block" style="background:#030712; display:flex; align-items:center; justify-content:center;">
+              <span style="color:#ffffff; font-size:18px; font-weight:700; font-family:Inter,sans-serif; letter-spacing:-0.02em;">Aa</span>
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Contrast</div>
+              <div class="swatch-hex">#ffffff</div>
+              <div class="swatch-desc">On dark backgrounds</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Borders -->
+      <div class="subsection">
+        <div class="subsection-title">Borders</div>
+        <div class="swatch-grid">
+          <div class="swatch-card" onclick="copyColor('#e5e7eb', 'border.primary')">
+            <div class="swatch-block" style="background:#e5e7eb; border-bottom:1px solid #d1d5db">
+              <div class="swatch-copy-hint" style="background:rgba(0,0,0,0.08); color:#374151">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Border Primary</div>
+              <div class="swatch-hex">#e5e7eb</div>
+              <div class="swatch-desc">Cards, inputs, separators</div>
+            </div>
+          </div>
+          <div class="swatch-card" onclick="copyColor('#991b1b', 'border.danger')">
+            <div class="swatch-block" style="background:#991b1b">
+              <div class="swatch-copy-hint">Copy hex</div>
+            </div>
+            <div class="swatch-info">
+              <div class="swatch-name">Border Danger</div>
+              <div class="swatch-hex">#991b1b</div>
+              <div class="swatch-desc">Error/danger border</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Palette -->
+      <div class="subsection">
+        <div class="subsection-title">Raw Palette</div>
+        <!-- Grey -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Grey</div>
+          <div class="palette-row">
+            <div class="palette-cell light" style="background:#f3f4f6" onclick="copyColor('#f3f4f6','grey.100')">
+              <span class="palette-cell-label">100</span>
+              <span class="palette-cell-hex">#f3f4f6</span>
+            </div>
+            <div class="palette-cell light" style="background:#d1d5db" onclick="copyColor('#d1d5db','grey.300')">
+              <span class="palette-cell-label">300</span>
+              <span class="palette-cell-hex">#d1d5db</span>
+            </div>
+            <div class="palette-cell" style="background:#9ca3af" onclick="copyColor('#9ca3af','grey.400')">
+              <span class="palette-cell-label">400</span>
+              <span class="palette-cell-hex">#9ca3af</span>
+            </div>
+            <div class="palette-cell" style="background:#6b7280" onclick="copyColor('#6b7280','grey.500')">
+              <span class="palette-cell-label">500</span>
+              <span class="palette-cell-hex">#6b7280</span>
+            </div>
+            <div class="palette-cell" style="background:#4b5563" onclick="copyColor('#4b5563','grey.600')">
+              <span class="palette-cell-label">600</span>
+              <span class="palette-cell-hex">#4b5563</span>
+            </div>
+            <div class="palette-cell" style="background:#374151" onclick="copyColor('#374151','grey.700')">
+              <span class="palette-cell-label">700</span>
+              <span class="palette-cell-hex">#374151</span>
+            </div>
+            <div class="palette-cell" style="background:#1f2937" onclick="copyColor('#1f2937','grey.800')">
+              <span class="palette-cell-label">800</span>
+              <span class="palette-cell-hex">#1f2937</span>
+            </div>
+          </div>
+        </div>
+        <!-- Red -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Red</div>
+          <div class="palette-row">
+            <div class="palette-cell" style="background:#b91c1c" onclick="copyColor('#b91c1c','red.700')">
+              <span class="palette-cell-label">700</span>
+              <span class="palette-cell-hex">#b91c1c</span>
+            </div>
+            <div class="palette-cell" style="background:#991b1b" onclick="copyColor('#991b1b','red.800')">
+              <span class="palette-cell-label">800</span>
+              <span class="palette-cell-hex">#991b1b</span>
+            </div>
+            <div class="palette-cell" style="background:#7f1d1d" onclick="copyColor('#7f1d1d','red.900')">
+              <span class="palette-cell-label">900</span>
+              <span class="palette-cell-hex">#7f1d1d</span>
+            </div>
+          </div>
+        </div>
+        <!-- Indigo -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Indigo</div>
+          <div class="palette-row">
+            <div class="palette-cell light" style="background:#bfc7ff" onclick="copyColor('#bfc7ff','indigo.100')">
+              <span class="palette-cell-label">100</span>
+              <span class="palette-cell-hex">#bfc7ff</span>
+            </div>
+            <div class="palette-cell light" style="background:#9ba4ff" onclick="copyColor('#9ba4ff','indigo.200')">
+              <span class="palette-cell-label">200</span>
+              <span class="palette-cell-hex">#9ba4ff</span>
+            </div>
+            <div class="palette-cell" style="background:#5f5cff" onclick="copyColor('#5f5cff','indigo.500')">
+              <span class="palette-cell-label">500</span>
+              <span class="palette-cell-hex">#5f5cff</span>
+            </div>
+            <div class="palette-cell" style="background:#4f4cf3" onclick="copyColor('#4f4cf3','primary.main')">
+              <span class="palette-cell-label">Primary</span>
+              <span class="palette-cell-hex">#4f4cf3</span>
+            </div>
+            <div class="palette-cell" style="background:#3836d4" onclick="copyColor('#3836d4','indigo.700')">
+              <span class="palette-cell-label">700</span>
+              <span class="palette-cell-hex">#3836d4</span>
+            </div>
+            <div class="palette-cell" style="background:#16147f" onclick="copyColor('#16147f','primary.active')">
+              <span class="palette-cell-label">Active</span>
+              <span class="palette-cell-hex">#16147f</span>
+            </div>
+          </div>
+        </div>
+        <!-- Gradient Pink-Indigo -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Gradient Pink-Indigo</div>
+          <div class="palette-row">
+            <div class="palette-cell" style="background:#6340cd" onclick="copyColor('#6340cd','gradientPinkIndigo.500')">
+              <span class="palette-cell-label">500</span>
+              <span class="palette-cell-hex">#6340cd</span>
+            </div>
+            <div class="palette-cell" style="background:#4b38d0" onclick="copyColor('#4b38d0','gradientPinkIndigo.600')">
+              <span class="palette-cell-label">600</span>
+              <span class="palette-cell-hex">#4b38d0</span>
+            </div>
+          </div>
+        </div>
+        <!-- Green -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Green</div>
+          <div class="palette-row">
+            <div class="palette-cell" style="background:#6ee7b7" onclick="copyColor('#6ee7b7','green.300')">
+              <span class="palette-cell-label" style="color:rgba(0,0,0,0.5)">300</span>
+              <span class="palette-cell-hex" style="color:rgba(0,0,0,0.4)">#6ee7b7</span>
+            </div>
+          </div>
+        </div>
+        <!-- Yellow / Brand -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Yellow</div>
+          <div class="palette-row">
+            <div class="palette-cell light" style="background:#fffdf5" onclick="copyColor('#fffdf5','yellow.50')">
+              <span class="palette-cell-label">50</span>
+              <span class="palette-cell-hex">#fffdf5</span>
+            </div>
+            <div class="palette-cell" style="background:#faa30f" onclick="copyColor('#faa30f','yellow.500')">
+              <span class="palette-cell-label">500</span>
+              <span class="palette-cell-hex">#faa30f</span>
+            </div>
+          </div>
+        </div>
+        <!-- Neutral Gray & Brand -->
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">Neutral Gray &amp; Brand</div>
+          <div class="palette-row">
+            <div class="palette-cell" style="background:#80858c" onclick="copyColor('#80858c','neutralGray.500')">
+              <span class="palette-cell-label">Neutral 500</span>
+              <span class="palette-cell-hex">#80858c</span>
+            </div>
+            <div class="palette-cell" style="background:#091521" onclick="copyColor('#091521','brand.hover')">
+              <span class="palette-cell-label">Brand Dark</span>
+              <span class="palette-cell-hex">#091521</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────── TYPOGRAPHY ─────────────────────────────── -->
+    <section class="section" id="typography" data-section="typography">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Foundation · 02</div>
+          <h2 class="section-title">Typography</h2>
+          <p class="section-desc">11 text styles built on Inter. Negative letter-spacing is applied progressively at larger sizes to keep display text tight and intentional.</p>
+        </div>
+        <span class="section-token-count">11 styles</span>
+      </div>
+
+      <div class="type-scale">
+
+        <!-- Display -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Display</div>
+            <span class="type-token">display</span>
+          </div>
+          <div class="type-example" style="font-size:32px;font-weight:700;line-height:42px;letter-spacing:-0.03em;">
+            The quick brown fox
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">32px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">700</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">42px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.03em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Heading -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Heading</div>
+            <span class="type-token">heading</span>
+          </div>
+          <div class="type-example" style="font-size:24px;font-weight:700;line-height:32px;letter-spacing:-0.02em;">
+            The quick brown fox jumps
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">24px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">700</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">32px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.02em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Title -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Title</div>
+            <span class="type-token">title</span>
+          </div>
+          <div class="type-example" style="font-size:20px;font-weight:700;line-height:30px;letter-spacing:-0.01em;">
+            The quick brown fox jumps over
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">20px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">700</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">30px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.01em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Subtitle -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Subtitle</div>
+            <span class="type-token">subtitle</span>
+          </div>
+          <div class="type-example" style="font-size:16px;font-weight:700;line-height:24px;letter-spacing:-0.01em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">16px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">700</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">24px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.01em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Body -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Body</div>
+            <span class="type-token">body</span>
+          </div>
+          <div class="type-example" style="font-size:16px;font-weight:400;line-height:24px;letter-spacing:-0.01em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">16px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">400</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">24px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.01em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Body Bold -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Body Bold</div>
+            <span class="type-token">bodyBold</span>
+          </div>
+          <div class="type-example" style="font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.01em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">16px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">600</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">24px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.01em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Link -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Link</div>
+            <span class="type-token">link</span>
+          </div>
+          <div class="type-example" style="font-size:16px;font-weight:600;line-height:24px;letter-spacing:-0.01em;color:var(--color-primary-main);text-decoration:underline;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">16px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">600</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">24px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.01em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Subtext Bold -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Subtext Bold</div>
+            <span class="type-token">subtextBold</span>
+          </div>
+          <div class="type-example" style="font-size:14px;font-weight:600;line-height:20px;letter-spacing:-0.01em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">14px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">600</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">20px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">-0.01em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Subtext -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Subtext</div>
+            <span class="type-token">subtext</span>
+          </div>
+          <div class="type-example" style="font-size:14px;font-weight:400;line-height:20px;letter-spacing:0em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">14px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">400</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">20px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">0em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Caption Bold -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Caption Bold</div>
+            <span class="type-token">captionBold</span>
+          </div>
+          <div class="type-example" style="font-size:12px;font-weight:600;line-height:18px;letter-spacing:0em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">12px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">600</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">18px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">0em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="type-divider"></div>
+
+        <!-- Caption -->
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Caption</div>
+            <span class="type-token">caption</span>
+          </div>
+          <div class="type-example" style="font-size:12px;font-weight:400;line-height:18px;letter-spacing:0em;">
+            The quick brown fox jumps over the lazy dog
+          </div>
+          <div class="type-specs">
+            <div class="type-spec-row">
+              <div class="type-spec">
+                <div class="type-spec-label">Size</div>
+                <div class="type-spec-value">12px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Weight</div>
+                <div class="type-spec-value">400</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Leading</div>
+                <div class="type-spec-value">18px</div>
+              </div>
+              <div class="type-spec">
+                <div class="type-spec-label">Tracking</div>
+                <div class="type-spec-value">0em</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────── SPACING ─────────────────────────────── -->
+    <section class="section" id="spacing" data-section="spacing">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Foundation · 03</div>
+          <h2 class="section-title">Spacing</h2>
+          <p class="section-desc">4px base unit. All spacing values are multiples of 4px. Never invent custom spacing — use these tokens to maintain a consistent visual rhythm.</p>
+        </div>
+        <span class="section-token-count">12 tokens</span>
+      </div>
+
+      <div class="spacing-list">
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/0</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:2px;opacity:0.3;"></div></div>
+          <div class="spacing-value">0px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/1</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px;"></div></div>
+          <div class="spacing-value">4px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/1.5</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px;"></div></div>
+          <div class="spacing-value">6px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/2</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px;"></div></div>
+          <div class="spacing-value">8px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/3</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48px;"></div></div>
+          <div class="spacing-value">12px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/4</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64px;"></div></div>
+          <div class="spacing-value">16px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/5</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:80px;"></div></div>
+          <div class="spacing-value">20px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/6</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:96px;"></div></div>
+          <div class="spacing-value">24px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/7</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:112px;"></div></div>
+          <div class="spacing-value">28px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/8</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:128px;"></div></div>
+          <div class="spacing-value">32px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/9</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:144px;"></div></div>
+          <div class="spacing-value">36px</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-token">spacing/10</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:160px;"></div></div>
+          <div class="spacing-value">40px</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────── BORDER RADIUS ──────────────────────────── -->
+    <section class="section" id="radius" data-section="radius">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Foundation · 04</div>
+          <h2 class="section-title">Border Radius</h2>
+          <p class="section-desc">Six radius sizes that define the visual language of components. Match the right size to the right component type.</p>
+        </div>
+        <span class="section-token-count">6 tokens</span>
+      </div>
+
+      <div class="radius-grid">
+        <div class="radius-card">
+          <div class="radius-box" style="border-radius:0px;"></div>
+          <div class="radius-info">
+            <div class="radius-name">None</div>
+            <span class="radius-value">0px</span>
+            <div class="radius-usage">Sharp corners, table cells</div>
+          </div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-box" style="border-radius:4px;"></div>
+          <div class="radius-info">
+            <div class="radius-name">XSmall</div>
+            <span class="radius-value">4px</span>
+            <div class="radius-usage">Tags, badges, icon buttons</div>
+          </div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-box" style="border-radius:8px;"></div>
+          <div class="radius-info">
+            <div class="radius-name">Small</div>
+            <span class="radius-value">8px</span>
+            <div class="radius-usage">Buttons, inputs, chips</div>
+          </div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-box" style="border-radius:16px;"></div>
+          <div class="radius-info">
+            <div class="radius-name">Medium</div>
+            <span class="radius-value">16px</span>
+            <div class="radius-usage">Cards, alerts, containers</div>
+          </div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-box" style="border-radius:24px;"></div>
+          <div class="radius-info">
+            <div class="radius-name">Large</div>
+            <span class="radius-value">24px</span>
+            <div class="radius-usage">Dialogs, modals, overlays</div>
+          </div>
+        </div>
+        <div class="radius-card">
+          <div class="radius-box" style="border-radius:9999px;"></div>
+          <div class="radius-info">
+            <div class="radius-name">Full</div>
+            <span class="radius-value">9999px</span>
+            <div class="radius-usage">Pills, toggles, fully rounded chips</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────── SHADOWS ─────────────────────────────── -->
+    <section class="section" id="shadows" data-section="shadows">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Foundation · 05</div>
+          <h2 class="section-title">Shadows</h2>
+          <p class="section-desc">Elevation shadows tinted with brand indigo — not neutral grey or black. This keeps shadows feeling warm and on-brand even in subtle contexts.</p>
+        </div>
+        <span class="section-token-count">5 effects</span>
+      </div>
+
+      <div class="shadow-grid">
+        <div class="shadow-card">
+          <div class="shadow-demo" style="box-shadow:0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5);"></div>
+          <div>
+            <div class="shadow-token">shadow.light.small</div>
+            <div class="shadow-desc-text">Small elevation for cards, dropdowns, and floating elements close to the surface.</div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Cards</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Dropdowns</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Tooltips</span>
+            </div>
+            <div class="shadow-css">0px 4px 16px -8px rgba(56,54,212,0.16),<br>0px 0px 1px 0px rgba(56,54,212,0.5)</div>
+          </div>
+        </div>
+        <div class="shadow-card">
+          <div class="shadow-demo" style="box-shadow:0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02);"></div>
+          <div>
+            <div class="shadow-token">shadow.light.medium</div>
+            <div class="shadow-desc-text">Medium elevation for dialogs, modals, and popovers that float significantly above the page.</div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Dialogs</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Modals</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Popovers</span>
+            </div>
+            <div class="shadow-css">0px 12px 16px -8px rgba(56,54,212,0.08),<br>0px 2px 2px 0px rgba(56,54,212,0.07),<br>0px -1px 2px 0px rgba(56,54,212,0.02)</div>
+          </div>
+        </div>
+        <div class="shadow-card">
+          <div class="shadow-demo" style="box-shadow:0px 1px 2px 0px rgba(61,58,180,0.4), 0px -1px 2px 0px rgba(61,58,180,0.1);"></div>
+          <div>
+            <div class="shadow-token">shadows.small</div>
+            <div class="shadow-desc-text">Compact indigo-tinted shadow — for buttons and tight interactive elements where the indigo color should subtly bleed into the shadow.</div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Buttons</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#4f4cf3;"></span>Chips</span>
+            </div>
+            <div class="shadow-css">0px 1px 2px 0px rgba(61,58,180,0.4),<br>0px -1px 2px 0px rgba(61,58,180,0.1)</div>
+          </div>
+        </div>
+        <div class="shadow-card">
+          <div class="shadow-demo" style="box-shadow:0px 1px 3px 0px rgba(24,24,25,0.16);"></div>
+          <div>
+            <div class="shadow-token">elevation.small</div>
+            <div class="shadow-desc-text">Neutral elevation shadow using near-black — for surfaces that should feel grounded without a color tint.</div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+              <span class="token-pill"><span class="token-pill-dot" style="background:#6b7280;"></span>Cards</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#6b7280;"></span>Surfaces</span>
+            </div>
+            <div class="shadow-css">0px 1px 3px 0px rgba(24,24,25,0.16)</div>
+          </div>
+        </div>
+        <div class="shadow-card">
+          <div style="padding:20px 0;">
+            <label style="display:block;font-size:12px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase;">Focused input example</label>
+            <input class="focus-demo-input" type="text" value="Focused state" readonly />
+          </div>
+          <div>
+            <div class="shadow-token">effect.inputFocus</div>
+            <div class="shadow-desc-text">Input focus ring — a 3px indigo glow with a 1px white inner ring to maintain contrast against any background.</div>
+            <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+              <span class="token-pill"><span class="token-pill-dot" style="background:#a5aee8;"></span>Inputs</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#a5aee8;"></span>Select</span>
+              <span class="token-pill"><span class="token-pill-dot" style="background:#a5aee8;"></span>Textarea</span>
+            </div>
+            <div class="shadow-css">0px 0px 0px 3px #a5aee8,<br>0px 0px 0px 1px #ffffff</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────── BUTTONS ─────────────────────────────── -->
+    <section class="section" id="buttons" data-section="buttons">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Components</div>
+          <h2 class="section-title">Buttons</h2>
+          <p class="section-desc">Buttons trigger actions. Three variants (Primary, Secondary, Tertiary) combined with type colours (Default, Destructive, Brand, AI) and three sizes.</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Variants × Type colours</div>
+        <div class="comp-demo stack">
+          <div class="comp-row">
+            <span class="comp-label">Primary</span>
+            <button class="btn btn-primary btn-md">Default</button>
+            <button class="btn btn-danger btn-md">Destructive</button>
+            <button class="btn btn-brand btn-md">
+              <span class="material-symbols-outlined">arrow_forward</span>
+              Brand
+            </button>
+            <button class="btn btn-ai btn-md">
+              <span class="material-symbols-outlined">auto_awesome</span>
+              AI
+            </button>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Secondary</span>
+            <button class="btn btn-secondary btn-md">Default</button>
+            <button class="btn btn-secondary-danger btn-md">Destructive</button>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Tertiary</span>
+            <button class="btn btn-tertiary btn-md">Default</button>
+            <button class="btn btn-tertiary-danger btn-md">Destructive</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Sizes</div>
+        <div class="comp-demo">
+          <button class="btn btn-primary btn-md">Medium — 36px</button>
+          <button class="btn btn-primary btn-sm">Small — 28px</button>
+          <button class="btn btn-primary btn-xs">X-Small — 24px</button>
+          <button class="btn btn-secondary btn-md">Medium — 36px</button>
+          <button class="btn btn-secondary btn-sm">Small — 28px</button>
+          <button class="btn btn-secondary btn-xs">X-Small — 24px</button>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">With Icons</div>
+        <div class="comp-demo">
+          <button class="btn btn-primary btn-md">
+            <span class="material-symbols-outlined">add</span>
+            Add Item
+          </button>
+          <button class="btn btn-secondary btn-md">
+            <span class="material-symbols-outlined">search</span>
+            Search
+          </button>
+          <button class="btn btn-tertiary btn-md">
+            <span class="material-symbols-outlined">settings</span>
+            Settings
+          </button>
+          <button class="btn btn-danger btn-md">
+            <span class="material-symbols-outlined">delete</span>
+            Delete
+          </button>
+          <button class="btn btn-secondary btn-md">
+            Continue
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">States</div>
+        <div class="comp-demo">
+          <button class="btn btn-primary btn-md">Default</button>
+          <button class="btn btn-secondary btn-md">Default</button>
+          <button class="btn btn-tertiary btn-md">Default</button>
+          <button class="btn btn-primary btn-md" disabled>Disabled</button>
+          <button class="btn btn-secondary btn-md" disabled>Disabled</button>
+          <button class="btn btn-tertiary btn-md" disabled>Disabled</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────── ICON BUTTONS ────────────────────────── -->
+    <section class="section" id="icon-buttons" data-section="icon-buttons">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Components</div>
+          <h2 class="section-title">Icon Buttons</h2>
+          <p class="section-desc">Square icon-only buttons. Same variants and type colours as text buttons, in three sizes — medium (36px), small (28px), and x-small (24px).</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Variants × Sizes</div>
+        <div class="comp-demo stack">
+          <div class="comp-row">
+            <span class="comp-label">Primary</span>
+            <button class="icon-btn icon-btn-primary icon-btn-md" title="Add">
+              <span class="material-symbols-outlined">add</span>
+            </button>
+            <button class="icon-btn icon-btn-primary icon-btn-sm" title="Add">
+              <span class="material-symbols-outlined">add</span>
+            </button>
+            <button class="icon-btn icon-btn-primary icon-btn-xs" title="Add">
+              <span class="material-symbols-outlined">add</span>
+            </button>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Secondary</span>
+            <button class="icon-btn icon-btn-secondary icon-btn-md" title="Search">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+            <button class="icon-btn icon-btn-secondary icon-btn-sm" title="Search">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+            <button class="icon-btn icon-btn-secondary icon-btn-xs" title="Search">
+              <span class="material-symbols-outlined">search</span>
+            </button>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Tertiary</span>
+            <button class="icon-btn icon-btn-tertiary icon-btn-md" title="Settings">
+              <span class="material-symbols-outlined">settings</span>
+            </button>
+            <button class="icon-btn icon-btn-tertiary icon-btn-sm" title="Settings">
+              <span class="material-symbols-outlined">settings</span>
+            </button>
+            <button class="icon-btn icon-btn-tertiary icon-btn-xs" title="Settings">
+              <span class="material-symbols-outlined">settings</span>
+            </button>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Destructive</span>
+            <button class="icon-btn icon-btn-danger icon-btn-md" title="Delete">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+            <button class="icon-btn icon-btn-danger icon-btn-sm" title="Delete">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Round (pill border-radius)</div>
+        <div class="comp-demo">
+          <button class="icon-btn icon-btn-primary icon-btn-round icon-btn-md" title="Add">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-secondary icon-btn-round icon-btn-md" title="Search">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <button class="icon-btn icon-btn-tertiary icon-btn-round icon-btn-md" title="More">
+            <span class="material-symbols-outlined">more_horiz</span>
+          </button>
+          <button class="icon-btn icon-btn-primary icon-btn-round icon-btn-sm" title="Add">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-secondary icon-btn-round icon-btn-sm" title="Person">
+            <span class="material-symbols-outlined">person</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">States</div>
+        <div class="comp-demo">
+          <button class="icon-btn icon-btn-primary icon-btn-md" title="Active">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-secondary icon-btn-md" title="Active">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-tertiary icon-btn-md" title="Active">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-primary icon-btn-md" disabled title="Disabled">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-secondary icon-btn-md" disabled title="Disabled">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+          <button class="icon-btn icon-btn-tertiary icon-btn-md" disabled title="Disabled">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────── CHIPS & TAGS ────────────────────────── -->
+    <section class="section" id="chips" data-section="chips">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Components</div>
+          <h2 class="section-title">Chips &amp; Tags</h2>
+          <p class="section-desc">Compact inline labels for categorisation, status, and filtering. Three sub-types: static label tags, clickable status pills, and actionable dismissible tags.</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Label Tags — static, semantic colours</div>
+        <div class="comp-demo stack">
+          <div class="comp-row">
+            <span class="comp-label">Colours</span>
+            <span class="label-tag label-tag-default">Default</span>
+            <span class="label-tag label-tag-primary">Primary</span>
+            <span class="label-tag label-tag-success">Success</span>
+            <span class="label-tag label-tag-danger">Danger</span>
+            <span class="label-tag label-tag-warning">Warning</span>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Value Tags</span>
+            <span class="value-tag"><span class="value-tag-key">env</span><span class="value-tag-val">production</span></span>
+            <span class="value-tag"><span class="value-tag-key">version</span><span class="value-tag-val">2.4.1</span></span>
+            <span class="value-tag"><span class="value-tag-key">status</span><span class="value-tag-val">active</span></span>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Text Pills</span>
+            <span class="text-pill">Design System</span>
+            <span class="text-pill">UI Components</span>
+            <span class="text-pill">Figma</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Status Pills — clickable / toggleable</div>
+        <div class="comp-demo">
+          <button class="status-pill active">
+            <span class="pill-dot pill-dot-primary"></span>Active
+          </button>
+          <button class="status-pill">
+            <span class="pill-dot pill-dot-success"></span>Resolved
+          </button>
+          <button class="status-pill">
+            <span class="pill-dot pill-dot-danger"></span>Error
+          </button>
+          <button class="status-pill">
+            <span class="pill-dot pill-dot-warning"></span>Warning
+          </button>
+          <button class="status-pill">
+            <span class="pill-dot pill-dot-default"></span>Inactive
+          </button>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Actionable Tags — dismissible &amp; copyable</div>
+        <div class="comp-demo stack">
+          <div class="comp-row">
+            <span class="comp-label">Dismissible</span>
+            <span class="chip-tag">
+              React
+              <button class="chip-tag-btn" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </span>
+            <span class="chip-tag">
+              TypeScript
+              <button class="chip-tag-btn" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </span>
+            <span class="chip-tag">
+              Design System
+              <button class="chip-tag-btn" title="Remove">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </span>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Copyable</span>
+            <span class="chip-tag">
+              abc123-xyz
+              <button class="chip-tag-btn" title="Copy">
+                <span class="material-symbols-outlined">content_copy</span>
+              </button>
+            </span>
+            <span class="chip-tag">
+              prod-api-key
+              <button class="chip-tag-btn" title="Copy">
+                <span class="material-symbols-outlined">content_copy</span>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────── AVATARS ─────────────────────────────── -->
+    <section class="section" id="avatars" data-section="avatars">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Components</div>
+          <h2 class="section-title">Avatars</h2>
+          <p class="section-desc">Circular user identifiers with three visual variants (Default, Subtle, Secondary), six type colours, and four sizes. Support initials, icons, and images.</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Variants × Type colours</div>
+        <div class="comp-demo stack">
+          <div class="comp-row">
+            <span class="comp-label">Default</span>
+            <div class="avatar avatar-md avatar-primary-def">MU</div>
+            <div class="avatar avatar-md avatar-success-def">MU</div>
+            <div class="avatar avatar-md avatar-danger-def">MU</div>
+            <div class="avatar avatar-md avatar-warning-def">MU</div>
+            <div class="avatar avatar-md avatar-neutral-l-def">MU</div>
+            <div class="avatar avatar-md avatar-neutral-d-def">MU</div>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Subtle</span>
+            <div class="avatar avatar-md avatar-primary-sub">MU</div>
+            <div class="avatar avatar-md avatar-success-sub">MU</div>
+            <div class="avatar avatar-md avatar-danger-sub">MU</div>
+            <div class="avatar avatar-md avatar-warning-sub">MU</div>
+            <div class="avatar avatar-md avatar-neutral-l-sub">MU</div>
+            <div class="avatar avatar-md avatar-neutral-d-sub">MU</div>
+          </div>
+          <div class="comp-row">
+            <span class="comp-label">Secondary</span>
+            <div class="avatar avatar-md avatar-primary-out">MU</div>
+            <div class="avatar avatar-md avatar-success-out">MU</div>
+            <div class="avatar avatar-md avatar-danger-out">MU</div>
+            <div class="avatar avatar-md avatar-warning-out">MU</div>
+            <div class="avatar avatar-md avatar-neutral-l-out">MU</div>
+            <div class="avatar avatar-md avatar-neutral-d-out">MU</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Sizes</div>
+        <div class="comp-demo">
+          <div style="display:flex;align-items:flex-end;gap:12px;">
+            <div class="avatar avatar-xl avatar-primary-def">MU</div>
+            <div class="avatar avatar-lg avatar-primary-def">MU</div>
+            <div class="avatar avatar-md avatar-primary-def">MU</div>
+            <div class="avatar avatar-sm avatar-primary-def">MU</div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:12px;margin-left:24px;">
+            <div class="avatar avatar-xl avatar-primary-sub">MU</div>
+            <div class="avatar avatar-lg avatar-primary-sub">MU</div>
+            <div class="avatar avatar-md avatar-primary-sub">MU</div>
+            <div class="avatar avatar-sm avatar-primary-sub">MU</div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:12px;margin-left:24px;">
+            <div class="avatar avatar-xl avatar-primary-out">MU</div>
+            <div class="avatar avatar-lg avatar-primary-out">MU</div>
+            <div class="avatar avatar-md avatar-primary-out">MU</div>
+            <div class="avatar avatar-sm avatar-primary-out">MU</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Icon Content</div>
+        <div class="comp-demo">
+          <div class="avatar avatar-xl avatar-primary-def">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div class="avatar avatar-lg avatar-success-def">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div class="avatar avatar-md avatar-danger-sub">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div class="avatar avatar-sm avatar-primary-out">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div class="avatar avatar-xl avatar-warning-sub">
+            <span class="material-symbols-outlined">mail</span>
+          </div>
+          <div class="avatar avatar-lg avatar-neutral-d-def">
+            <span class="material-symbols-outlined">settings</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Avatar Group</div>
+        <div class="comp-demo">
+          <div class="avatar-group">
+            <div class="avatar avatar-md avatar-neutral-d-def" style="font-size:10px;">+3</div>
+            <div class="avatar avatar-md avatar-warning-def">AB</div>
+            <div class="avatar avatar-md avatar-success-def">CK</div>
+            <div class="avatar avatar-md avatar-primary-def">MU</div>
+          </div>
+          <div class="avatar-group" style="margin-left:20px;">
+            <div class="avatar avatar-lg avatar-neutral-d-def" style="font-size:11px;">+5</div>
+            <div class="avatar avatar-lg avatar-danger-sub">RT</div>
+            <div class="avatar avatar-lg avatar-primary-sub">AJ</div>
+            <div class="avatar avatar-lg avatar-success-sub">SL</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────── INPUTS ──────────────────────────────── -->
+    <section class="section" id="inputs" data-section="inputs">
+      <div class="section-header">
+        <div>
+          <div class="section-label">Components</div>
+          <h2 class="section-title">Input Fields</h2>
+          <p class="section-desc">Text inputs, text areas, and select dropdowns. Three sizes with full state coverage — default, focused, danger, and disabled.</p>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Sizes</div>
+        <div class="comp-demo stack">
+          <div class="comp-row" style="align-items:flex-start;">
+            <span class="comp-label" style="padding-top:8px;">Large — 48px</span>
+            <div class="input-wrap">
+              <label class="input-label">Label</label>
+              <input class="field field-lg" type="text" placeholder="Placeholder text">
+              <span class="input-helper">Helper text goes here</span>
+            </div>
+          </div>
+          <div class="comp-row" style="align-items:flex-start;">
+            <span class="comp-label" style="padding-top:8px;">Medium — 40px</span>
+            <div class="input-wrap">
+              <label class="input-label">Label</label>
+              <input class="field field-md" type="text" placeholder="Placeholder text">
+              <span class="input-helper">Helper text goes here</span>
+            </div>
+          </div>
+          <div class="comp-row" style="align-items:flex-start;">
+            <span class="comp-label" style="padding-top:8px;">Small — 32px</span>
+            <div class="input-wrap">
+              <label class="input-label">Label</label>
+              <input class="field field-sm" type="text" placeholder="Placeholder text">
+              <span class="input-helper">Helper text goes here</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">States</div>
+        <div class="comp-demo" style="flex-wrap:wrap;gap:16px;align-items:flex-start;">
+          <div class="input-wrap">
+            <label class="input-label">Default</label>
+            <input class="field field-md" type="text" placeholder="Placeholder">
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">With value</label>
+            <input class="field field-md" type="text" value="Entered value">
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">Danger</label>
+            <input class="field field-md is-danger" type="text" value="Invalid value">
+            <span class="input-error">
+              <span class="material-symbols-outlined">error</span>
+              This field is required
+            </span>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label" style="color:var(--color-text-disabled);">Disabled</label>
+            <input class="field field-md" type="text" placeholder="Disabled" disabled>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">With Leading &amp; Trailing Icons</div>
+        <div class="comp-demo" style="flex-wrap:wrap;gap:16px;align-items:flex-start;">
+          <div class="input-wrap">
+            <label class="input-label">Search</label>
+            <div class="field-icon-wrap has-lead">
+              <span class="field-icon-lead">
+                <span class="material-symbols-outlined">search</span>
+              </span>
+              <input class="field field-md" type="text" placeholder="Search…">
+            </div>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">Email</label>
+            <div class="field-icon-wrap has-lead">
+              <span class="field-icon-lead">
+                <span class="material-symbols-outlined">mail</span>
+              </span>
+              <input class="field field-md" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">Username</label>
+            <div class="field-icon-wrap has-lead has-trail">
+              <span class="field-icon-lead">
+                <span class="material-symbols-outlined">person</span>
+              </span>
+              <input class="field field-md" type="text" value="bernardoramalho">
+              <span class="field-icon-trail">
+                <span class="material-symbols-outlined" style="color:var(--color-text-success);">check_circle</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Text Area</div>
+        <div class="comp-demo" style="flex-wrap:wrap;gap:16px;align-items:flex-start;">
+          <div class="input-wrap" style="max-width:360px;">
+            <label class="input-label">Description</label>
+            <textarea class="field" placeholder="Enter a description…" rows="3"></textarea>
+            <span class="input-helper">Max 500 characters</span>
+          </div>
+          <div class="input-wrap" style="max-width:360px;">
+            <label class="input-label" style="color:var(--color-text-disabled);">Disabled</label>
+            <textarea class="field" placeholder="Disabled…" rows="3" disabled></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <div class="subsection-title">Select / Dropdown</div>
+        <div class="comp-demo" style="flex-wrap:wrap;gap:16px;align-items:flex-start;">
+          <div class="input-wrap">
+            <label class="input-label">Large — 48px</label>
+            <select class="field field-lg">
+              <option value="">Select an option</option>
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">Medium — 40px</label>
+            <select class="field field-md">
+              <option value="">Select an option</option>
+              <option>Option 1</option>
+              <option>Option 2</option>
+            </select>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">Small — 32px</label>
+            <select class="field field-sm">
+              <option value="">Select an option</option>
+              <option>Option 1</option>
+            </select>
+          </div>
+          <div class="input-wrap">
+            <label class="input-label" style="color:var(--color-text-disabled);">Disabled</label>
+            <select class="field field-md" disabled>
+              <option>Disabled</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Copy hex values ──────────────────────────────────────────────────────
+  function copyColor(hex, tokenName) {
+    navigator.clipboard.writeText(hex).then(() => {
+      showToast(`Copied ${hex}`);
+    }).catch(() => {
+      showToast(`${tokenName}`);
+    });
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // ── Sidebar active state ─────────────────────────────────────────────────
+  function setActive(el) {
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // ── Scrollspy ────────────────────────────────────────────────────────────
+  const sections = document.querySelectorAll('[data-section]');
+  const navLinks = document.querySelectorAll('.nav-link[href]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('data-section');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

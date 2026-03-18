@@ -1,118 +1,155 @@
-# p44-TMS Design System
+# CLAUDE.md
 
-This project uses the **Manifest Material Design System**. Always refer to `design-tokens.json` for the authoritative token values. The rules below summarize how to apply them.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-- Figma source: https://www.figma.com/design/Tulc1hjAI8hu7AeyGONCsq/Manifest-Material-Design-System
-- Font: **Inter** (always import from Google Fonts if not available locally)
-- Base spacing unit: **4px**
+## Dev Server
+
+The preview server uses macOS's built-in Apache (`/usr/sbin/httpd`) because the Claude Preview sandbox restricts child processes from reading files in the project directory. The workaround is to copy files to `/private/tmp/d44-tms-www/` first (Claude Code has full filesystem access to do this), then Apache serves from there.
+
+**Before starting the server**, always run:
+```bash
+mkdir -p /private/tmp/d44-tms-www
+cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-system/index.html /private/tmp/d44-tms-www/
+cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-tokens.json /private/tmp/d44-tms-www/
+```
+
+Then start via `preview_start` with name `"Design System Docs"` (config in `.claude/launch.json`). The Apache config lives at `/private/tmp/d44-tms-httpd.conf` and must be regenerated if `/private/tmp` is cleared (see `.claude/httpd.conf` for the template).
 
 ---
 
-## Colors
+## Repository Purpose
 
-### Primary
+This is the **d44-TMS design system seed repository**. It holds the authoritative design tokens and style rules derived from the Manifest Material Design System in Figma. There is no application code here — this repo is the reference point for any UI work done in d44-TMS.
+
+- **Token source of truth:** `design-tokens.json` (W3C Design Token Community Group format)
+- **Figma source:** https://www.figma.com/design/Tulc1hjAI8hu7AeyGONCsq/Manifest-Material-Design-System
+- **Remote:** https://github.com/bernardolcr/d44-TMS.git
+
+There is no package.json, build system, or test runner — this is a documentation/data repository.
+
+---
+
+## Design System Rules
+
+### Font
+
+**Inter** exclusively. Import from Google Fonts if not locally available: `https://fonts.google.com/specimen/Inter`
+
+### Icons
+
+**Material Symbols Outlined** is the canonical icon set. Always use it — never hand-roll SVG icons.
+
+Load via Google Fonts (add alongside the Inter link):
+```html
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet" />
+```
+
+Usage: `<span class="material-symbols-outlined">icon_name</span>`
+
+Size the icons with CSS rules scoped to their container — never with inline `width`/`height` attributes:
+
+| Context | CSS rule | Size |
+|---|---|---|
+| Text button | `.btn .material-symbols-outlined` | `18px` |
+| Icon button md | `.icon-btn-md .material-symbols-outlined` | `20px` |
+| Icon button sm | `.icon-btn-sm .material-symbols-outlined` | `18px` |
+| Icon button xs | `.icon-btn-xs .material-symbols-outlined` | `16px` |
+| Chip action btn | `.chip-tag-btn .material-symbols-outlined` | `14px` |
+| Avatar | `.avatar .material-symbols-outlined` | `1.4em` |
+| Field lead/trail | `.field-icon-lead .material-symbols-outlined` | `18px` |
+| Inline (error, etc.) | `.input-error .material-symbols-outlined` | `14px` |
+
+Common icon names used in this project: `add`, `search`, `settings`, `delete`, `arrow_forward`, `auto_awesome`, `more_horiz`, `person`, `mail`, `close`, `content_copy`, `check_circle`, `error`.
+
+### Colors
+
+Always reference tokens from `design-tokens.json`. Never hardcode arbitrary values.
+
+**Primary**
 | Token | Value | Usage |
 |---|---|---|
-| primary.main | `#4f4cf3` | Primary buttons, key UI elements |
-| primary.hover | `#3836d4` | Hover state on primary elements |
-| primary.active | `#16147f` | Pressed/active state |
+| `primary.main` | `#4f4cf3` | Primary buttons, key UI elements |
+| `primary.hover` | `#3836d4` | Hover state |
+| `primary.active` | `#16147f` | Pressed/active state |
 
-### Backgrounds
+**Backgrounds**
 | Token | Value | Usage |
 |---|---|---|
-| background.default | `#ffffff` | Page and surface background |
-| background.secondary | `#f3f4f6` | Secondary surfaces |
-| background.tertiary | `#e5e7eb` | Cards slots, dividers |
-| background.danger | `#fef2f2` | Error state background |
-| background.success | `#ecfdf5` | Success state background |
-| background.info | `#e8ebff` | Info state background |
-| background.warning | `#fef3c7` | Warning state background |
-| background.overlay | `rgba(9, 21, 33, 0.6)` | Modal backdrop |
+| `background.default` | `#ffffff` | Page and surface background |
+| `background.secondary` | `#f3f4f6` | Secondary surfaces |
+| `background.tertiary` | `#e5e7eb` | Card slots, dividers |
+| `background.danger` | `#fef2f2` | Error state |
+| `background.success` | `#ecfdf5` | Success state |
+| `background.info` | `#e8ebff` | Info state |
+| `background.warning` | `#fef3c7` | Warning state |
+| `background.overlay` | `rgba(9, 21, 33, 0.6)` | Modal backdrop |
 
-### Text & Icons
+**Text & Icons**
 | Token | Value | Usage |
 |---|---|---|
-| text.primary | `#030712` | Default body text |
-| text.secondary | `#374151` | Secondary text |
-| text.tertiary | `#6b7280` | Subdued/helper text |
-| text.contrast | `#ffffff` | Text on dark or primary backgrounds |
-| text.danger | `#b91c1c` | Error messages |
-| text.success | `#047857` | Success messages |
-| text.warning | `#ba7500` | Warning messages |
-| text.disabled | `#9ca3af` | Disabled state |
+| `text.primary` | `#030712` | Default body text |
+| `text.secondary` | `#374151` | Secondary text |
+| `text.tertiary` | `#6b7280` | Subdued/helper/placeholder text |
+| `text.contrast` | `#ffffff` | Text on dark or primary backgrounds |
+| `text.danger` | `#b91c1c` | Error messages |
+| `text.success` | `#047857` | Success messages |
+| `text.warning` | `#ba7500` | Warning messages |
+| `text.disabled` | `#9ca3af` | Disabled state |
 
-### Borders
-- Default border: `#e5e7eb` — use for cards, inputs, and separators
+**Border:** `#e5e7eb` — cards, inputs, separators.
 
----
-
-## Typography
-
-All text uses **Inter**. Never substitute another font.
-
-| Style | Size | Weight | Line Height | Letter Spacing | Usage |
-|---|---|---|---|---|---|
-| display | 32px | 700 | 42px | -0.03em | Page heroes, large headings |
-| heading | 24px | 700 | 32px | -0.02em | Section headings, card headers |
-| title | 20px | 700 | 30px | -0.01em | Dialog titles, modal headers |
-| subtitle | 16px | 700 | 24px | -0.01em | Emphasized body, section labels |
-| body | 16px | 400 | 24px | -0.01em | Default body copy |
-| subtextBold | 14px | 600 | 20px | -0.01em | Button labels, emphasized secondary |
-| subtext | 14px | 400 | 20px | 0em | Secondary copy, helper text |
-| captionBold | 12px | 600 | 18px | 0em | Emphasized labels |
-| caption | 12px | 400 | 18px | 0em | Metadata, smallest labels |
+State colors (danger, success, warning, info) must always pair their `background.*` token with the matching `text.*` token.
 
 ---
 
-## Spacing
+### Typography
 
-Based on a **4px base unit**. Use these values — do not invent custom spacing.
-
-| Token | Value |
-|---|---|
-| spacing/1 | 4px |
-| spacing/1.5 | 6px |
-| spacing/2 | 8px |
-| spacing/3 | 12px |
-| spacing/4 | 16px |
-| spacing/5 | 20px |
-| spacing/6 | 24px |
-| spacing/7 | 28px |
-| spacing/8 | 32px |
-| spacing/9 | 36px |
-| spacing/10 | 40px |
+| Style | Size | Weight | Line Height | Letter Spacing |
+|---|---|---|---|---|
+| `display` | 32px | 700 | 42px | -0.03em |
+| `heading` | 24px | 700 | 32px | -0.02em |
+| `title` | 20px | 700 | 30px | -0.01em |
+| `subtitle` | 16px | 700 | 24px | -0.01em |
+| `body` | 16px | 400 | 24px | -0.01em |
+| `subtextBold` | 14px | 600 | 20px | -0.01em |
+| `subtext` | 14px | 400 | 20px | 0em |
+| `captionBold` | 12px | 600 | 18px | 0em |
+| `caption` | 12px | 400 | 18px | 0em |
 
 ---
 
-## Border Radius
+### Spacing
+
+4px base unit. Do not invent custom spacing values.
+
+| Token | Value | | Token | Value |
+|---|---|---|---|---|
+| `spacing/1` | 4px | | `spacing/6` | 24px |
+| `spacing/1.5` | 6px | | `spacing/7` | 28px |
+| `spacing/2` | 8px | | `spacing/8` | 32px |
+| `spacing/3` | 12px | | `spacing/9` | 36px |
+| `spacing/4` | 16px | | `spacing/10` | 40px |
+| `spacing/5` | 20px | | | |
+
+---
+
+### Border Radius
 
 | Token | Value | Usage |
 |---|---|---|
-| xsmall | 4px | Tags, small badges, icon buttons |
-| small | 8px | Buttons, inputs, chips |
-| medium | 16px | Cards, alerts, containers |
-| large | 24px | Dialogs, modals, overlays |
-| full | 9999px | Pills, toggles, fully rounded chips |
+| `radius.xsmall` | 4px | Tags, small badges, icon buttons |
+| `radius.small` | 8px | Buttons, inputs, chips |
+| `radius.medium` | 16px | Cards, alerts, containers |
+| `radius.large` | 24px | Dialogs, modals, overlays |
+| `radius.full` | 9999px | Pills, toggles, fully rounded chips |
 
 ---
 
-## Shadows
+### Shadows
 
-Shadows use the brand indigo as the shadow color — not black.
+Shadows use brand indigo as the shadow color — not black or grey.
 
 | Token | Value | Usage |
 |---|---|---|
-| shadow.light.small | `0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5)` | Cards, dropdowns |
-| shadow.light.medium | `0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02)` | Dialogs, modals, popovers |
-
----
-
-## Rules
-
-- **Always** use token values from this file or `design-tokens.json`. Never hardcode arbitrary colors or spacing.
-- **Always** use Inter. Import it from Google Fonts if needed: `https://fonts.google.com/specimen/Inter`
-- **Always** use the correct border radius for the component type (e.g. `small` for buttons, `medium` for cards).
-- **Always** use indigo-tinted shadows, never plain black/grey shadows.
-- Use `text.tertiary` for placeholder and helper text, never grey arbitrary values.
-- State colors (danger, success, warning, info) must always use both the background token AND the matching text token together.
-- When building interactive components, always include hover, active, and disabled states using the appropriate tokens.
+| `shadow.light.small` | `0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5)` | Cards, dropdowns |
+| `shadow.light.medium` | `0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02)` | Dialogs, modals, popovers |

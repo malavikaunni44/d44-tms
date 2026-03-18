@@ -15,16 +15,19 @@
     },
     "background": {
       "default":   { "$value": "#ffffff", "$type": "color", "$description": "Default page/surface background" },
+      "subtle":    { "$value": "#f9fafb", "$type": "color", "$description": "Subtle off-white background, one step above default" },
       "secondary": { "$value": "#f3f4f6", "$type": "color", "$description": "Secondary surface background" },
       "tertiary":  { "$value": "#e5e7eb", "$type": "color", "$description": "Tertiary surface, card slots, dividers" },
       "danger":    { "$value": "#fef2f2", "$type": "color", "$description": "Error/danger state background" },
       "success":   { "$value": "#ecfdf5", "$type": "color", "$description": "Success state background" },
       "info":      { "$value": "#e8ebff", "$type": "color", "$description": "Info state background" },
       "warning":   { "$value": "#fef3c7", "$type": "color", "$description": "Warning state background" },
-      "overlay":   { "$value": "rgba(9, 21, 33, 0.6)", "$type": "color", "$description": "Modal backdrop overlay" }
+      "overlay":   { "$value": "rgba(9, 21, 33, 0.6)", "$type": "color", "$description": "Modal backdrop overlay" },
+      "sideNav":   { "$value": "#1a3c61", "$type": "color", "$description": "Side navigation background (dark navy)" }
     },
     "border": {
-      "primary": { "$value": "#e5e7eb", "$type": "color", "$description": "Default border color for cards, inputs, separators" }
+      "primary": { "$value": "#e5e7eb", "$type": "color", "$description": "Default border color for cards, inputs, separators" },
+      "danger":  { "$value": "#991b1b", "$type": "color", "$description": "Danger/error border color" }
     },
     "textAndIcons": {
       "primary":   { "$value": "#030712", "$type": "color", "$description": "Primary text and icon color" },
@@ -34,6 +37,7 @@
       "danger":    { "$value": "#b91c1c", "$type": "color", "$description": "Error/danger text and icon color" },
       "success":   { "$value": "#047857", "$type": "color", "$description": "Success text and icon color" },
       "warning":   { "$value": "#ba7500", "$type": "color", "$description": "Warning text and icon color" },
+      "info":      { "$value": "#5f5cff", "$type": "color", "$description": "Info text and icon color" },
       "disabled":  { "$value": "#9ca3af", "$type": "color", "$description": "Disabled state text and icon color" }
     },
     "blackAndWhite": {
@@ -43,22 +47,36 @@
     "grey": {
       "100": { "$value": "#f3f4f6", "$type": "color" },
       "300": { "$value": "#d1d5db", "$type": "color" },
-      "400": { "$value": "#9ca3af", "$type": "color" }
+      "400": { "$value": "#9ca3af", "$type": "color" },
+      "500": { "$value": "#6b7280", "$type": "color" },
+      "600": { "$value": "#4b5563", "$type": "color" },
+      "700": { "$value": "#374151", "$type": "color" },
+      "800": { "$value": "#1f2937", "$type": "color" }
     },
     "red": {
       "700": { "$value": "#b91c1c", "$type": "color" },
       "800": { "$value": "#991b1b", "$type": "color" },
       "900": { "$value": "#7f1d1d", "$type": "color" }
     },
+    "green": {
+      "300": { "$value": "#6ee7b7", "$type": "color" }
+    },
     "yellow": {
-      "50": { "$value": "#fffdf5", "$type": "color" }
+      "50":  { "$value": "#fffdf5", "$type": "color" },
+      "500": { "$value": "#faa30f", "$type": "color" }
     },
     "indigo": {
+      "100": { "$value": "#bfc7ff", "$type": "color" },
+      "200": { "$value": "#9ba4ff", "$type": "color" },
+      "500": { "$value": "#5f5cff", "$type": "color" },
       "700": { "$value": "#3836d4", "$type": "color" }
     },
     "gradientPinkIndigo": {
       "500": { "$value": "#6340cd", "$type": "color", "$description": "Gradient pink-indigo stop at 500" },
       "600": { "$value": "#4b38d0", "$type": "color", "$description": "Gradient pink-indigo stop at 600" }
+    },
+    "neutralGray": {
+      "500": { "$value": "#80858c", "$type": "color", "$description": "Neutral gray — separate from the Tailwind grey scale" }
     },
     "brand": {
       "hover":  { "$value": "#091521", "$type": "color", "$description": "Brand hover state (dark navy)" },
@@ -82,6 +100,7 @@
   },
   "borderRadius": {
     "$description": "Border radius scale for rounded corners.",
+    "none":   { "$value": "0px",    "$type": "dimension", "$description": "No rounding — sharp corners" },
     "xsmall": { "$value": "4px",    "$type": "dimension", "$description": "Extra small — tags, small badges, icon buttons" },
     "small":  { "$value": "8px",    "$type": "dimension", "$description": "Small — buttons, inputs, chips" },
     "medium": { "$value": "16px",   "$type": "dimension", "$description": "Medium — cards, alerts, containers" },
@@ -127,6 +146,22 @@
       "$description": "Body — default body copy",
       "fontSize":      { "$value": "16px", "$type": "dimension" },
       "fontWeight":    { "$value": 400, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "24px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "bodyBold": {
+      "$description": "Body Bold — emphasized body copy, inline strong text",
+      "fontSize":      { "$value": "16px", "$type": "dimension" },
+      "fontWeight":    { "$value": 600, "$type": "fontWeight" },
+      "lineHeight":    { "$value": "24px", "$type": "dimension" },
+      "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
+      "fontStyle":     { "$value": "normal", "$type": "string" }
+    },
+    "link": {
+      "$description": "Link — inline hyperlink text style",
+      "fontSize":      { "$value": "16px", "$type": "dimension" },
+      "fontWeight":    { "$value": 600, "$type": "fontWeight" },
       "lineHeight":    { "$value": "24px", "$type": "dimension" },
       "letterSpacing": { "$value": "-0.01em", "$type": "dimension" },
       "fontStyle":     { "$value": "normal", "$type": "string" }
@@ -177,6 +212,27 @@
         "$type": "shadow",
         "$description": "Medium elevation — dialogs, modals, popovers"
       }
+    },
+    "shadows": {
+      "small": {
+        "$value": "0px 1px 2px 0px rgba(61, 58, 180, 0.4), 0px -1px 2px 0px rgba(61, 58, 180, 0.1)",
+        "$type": "shadow",
+        "$description": "Shadows/Small — compact button-style shadow"
+      }
+    },
+    "elevation": {
+      "small": {
+        "$value": "0px 1px 3px 0px rgba(24, 24, 25, 0.16)",
+        "$type": "shadow",
+        "$description": "Elevation/Small — neutral elevation for cards and surfaces"
+      }
+    }
+  },
+  "effect": {
+    "inputFocus": {
+      "$value": "0px 0px 0px 3px #a5aee8, 0px 0px 0px 1px #ffffff",
+      "$type": "shadow",
+      "$description": "Input Focus ring — spread:3 indigo glow + spread:1 white inner ring"
     }
   }
 }
