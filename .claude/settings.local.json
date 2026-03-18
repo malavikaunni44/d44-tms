@@ -7,7 +7,25 @@
       "Read(//Users/bernardoramalho/**)",
       "Bash(python3 -c \" import json, sys data = json.load\\(sys.stdin\\) # Look for figma configuration - mask any tokens if ''mcpServers'' in data: for name, config in data[''mcpServers''].items\\(\\): if ''figma'' in name.lower\\(\\): print\\(f''Server: {name}''\\) env = config.get\\(''env'', {}\\) for k, v in env.items\\(\\): print\\(f'' {k}: {v[:10]}...'' if len\\(v\\) > 10 else f'' {k}: {v}''\\) cmd = config.get\\(''command'', ''''\\) args = config.get\\(''args'', []\\) print\\(f'' command: {cmd} {args}''\\) \")",
       "Bash(python3 -m json.tool)",
-      "mcp__figma__get_design_context"
+      "mcp__figma__get_design_context",
+      "Bash(git ls-tree -r HEAD)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npx --version)",
+      "Bash(node --version)",
+      "Bash(ruby --version which php)",
+      "Bash(php --version)",
+      "Bash(node --version ls /usr/local/bin/)",
+      "Bash(/private/tmp/d44-tms-httpd.conf:*)",
+      "Read(//private/tmp/**)",
+      "mcp__figma__get_variable_defs",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3400/)",
+      "Bash(pkill -f \"httpd.*d44-tms\")",
+      "Bash(git checkout -b transportation-app-v1.1)",
+      "Bash(git add prototypes/transportation-app-v1/index.html)",
+      "Bash(git commit:*)",
+      "Bash(git push -u origin transportation-app-v1.1)",
+      "Bash(git remote set-url origin git@github.com:bernardolcr/d44-TMS.git)",
+      "Bash(gh auth status)"
     ]
   }
 }
