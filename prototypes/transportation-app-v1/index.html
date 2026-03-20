@@ -59,6 +59,7 @@
       --shadow-light-small:  0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5);
       --shadow-light-medium: 0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02);
       --shadow-elevation-small: 0px 1px 3px 0px rgba(24,24,25,0.16);
+      --effect-input-focus:     0px 0px 0px 3px #a5aee8, 0px 0px 0px 1px #ffffff;
     }
 
     /* ─── Reset ─── */
@@ -208,12 +209,11 @@
 
     /* ── Chat section ── */
     .sidebar-chat {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid var(--color-border);
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
+      margin-top: auto;
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      padding: 12px 4px 8px;
     }
 
     .sidebar-section-label {
@@ -256,7 +256,6 @@
     /* ── Footer ── */
     .sidebar-footer {
       padding-top: 12px;
-      border-top: 1px solid var(--color-border);
       margin-top: 12px;
       flex-shrink: 0;
     }
@@ -299,7 +298,7 @@
       margin-left: 332px;
       margin-right: 424px;
       min-height: 100vh;
-      padding: 40px 24px 60px;
+      padding: 40px 24px 180px;
     }
 
     .content-inner {
@@ -326,10 +325,29 @@
     .card {
       background: var(--color-bg-default);
       border-radius: var(--radius-large);
-      box-shadow: var(--shadow-light-small);
+      box-shadow: var(--shadow-light-medium);
       padding: 24px;
       margin-bottom: 16px;
+      border: 1px solid transparent;
+      transition: border-color 0.15s;
     }
+    .card:hover { border-color: var(--color-indigo-200); }
+    .card--static:hover { border-color: transparent; }
+    .card--new-alert { border-color: var(--color-primary-main); }
+
+    .card-new-badge {
+      display: none;
+      align-items: center;
+      padding: 4px 10px;
+      background: var(--color-primary-main);
+      color: var(--color-text-contrast);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 18px;
+      white-space: nowrap;
+    }
+    .card--new .card-new-badge { display: inline-flex; }
 
     /* ═══════════════════════════════════════
        LIVE PERFORMANCE CARD
@@ -351,31 +369,144 @@
       color: var(--color-text-primary);
     }
 
+    @keyframes livePulse {
+      0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+      70%  { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
     .live-dot {
       width: 8px;
       height: 8px;
       border-radius: var(--radius-full);
       background: #10b981;
       flex-shrink: 0;
+      animation: livePulse 2s ease-out infinite;
     }
 
-    .filter-pill {
+    /* ─── Field component (from design system) ─── */
+    .field {
+      display: block; width: 100%;
+      border: 1px solid var(--color-border); border-radius: var(--radius-small);
+      background: var(--color-bg-default); color: var(--color-text-primary);
+      font-family: Inter, sans-serif;
+      transition: border-color 0.12s, box-shadow 0.12s, background 0.12s;
+      outline: none;
+    }
+    .field-sm { height: 32px; padding: 0 10px; font-size: 13px; }
+    .field::placeholder { color: var(--color-text-disabled); }
+    .field:hover        { border-color: var(--color-grey-300); }
+    .field:focus        { border-color: var(--color-primary-main); box-shadow: var(--effect-input-focus); }
+    .field:disabled     { background: var(--color-bg-secondary); color: var(--color-text-disabled); cursor: not-allowed; }
+
+    .field-icon-wrap { position: relative; display: flex; align-items: center; }
+    .field-icon-lead {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      left: 10px;
+      color: var(--color-text-tertiary); pointer-events: none;
+      display: flex; align-items: center;
+    }
+    .field-icon-lead .material-icons-outlined { font-size: 16px; }
+    .field-icon-wrap.has-lead .field { padding-left: 34px; }
+
+    select.field {
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+      padding-right: 32px; cursor: pointer;
+    }
+    select.field:disabled { cursor: not-allowed; }
+
+    /* ─── AI Chat Bar ─── */
+    .ai-chat-bar {
+      position: fixed;
+      bottom: 24px;
+      left: 332px;
+      right: 424px;
+      padding: 0 16px;
+      z-index: 150;
+    }
+
+    .ai-chat-card {
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow-light-medium);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.15s;
+    }
+
+    .ai-chat-card:hover {
+      border-color: var(--color-indigo-200);
+    }
+
+    .ai-chat-card:focus-within {
+      border-color: var(--color-primary-main);
+    }
+
+    .ai-chat-textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: Inter, sans-serif;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      background: transparent;
+      min-height: 28px;
+    }
+    .ai-chat-textarea::placeholder { color: #a9adb1; }
+
+    .ai-chat-toolbar {
       display: flex;
       align-items: center;
-      gap: 6px;
-      background: var(--color-bg-secondary);
+      justify-content: space-between;
+    }
+    .ai-chat-toolbar-left  { display: flex; align-items: center; gap: 8px; }
+    .ai-chat-toolbar-right { display: flex; align-items: center; gap: 8px; }
+
+    .ai-chat-attach-btn {
+      display: flex; align-items: center; gap: 4px;
+      height: 36px; padding: 0 14px 0 10px;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-full);
-      padding: 6px 12px;
-      font-size: 12px;
+      background: transparent;
+      font-family: Inter, sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .ai-chat-attach-btn:hover { background: var(--color-bg-secondary); }
+    .ai-chat-attach-btn .material-icons-outlined { font-size: 16px; }
+
+    .ai-chat-icon-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; border-radius: var(--radius-small);
+      background: transparent;
       color: var(--color-text-secondary);
       cursor: pointer;
+      transition: background 0.12s;
     }
+    .ai-chat-icon-btn:hover { background: var(--color-bg-secondary); }
+    .ai-chat-icon-btn .material-icons-outlined { font-size: 18px; }
 
-    .filter-pill .material-icons-outlined {
-      font-size: 14px;
-      color: var(--color-text-tertiary);
+    .ai-chat-send-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; border-radius: 50%;
+      background: var(--color-primary-main);
+      color: var(--color-text-contrast);
+      cursor: pointer;
+      transition: background 0.12s;
     }
+    .ai-chat-send-btn:hover { background: var(--color-primary-hover); }
+    .ai-chat-send-btn .material-icons-outlined { font-size: 18px; }
 
     .kpi-grid {
       display: grid;
@@ -384,7 +515,8 @@
     }
 
     .kpi-cell {
-      background: var(--color-bg-subtle);
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
       border-radius: var(--radius-medium);
       padding: 20px;
     }
@@ -467,7 +599,7 @@
       width: 40px;
       height: 40px;
       border-radius: var(--radius-full);
-      background: var(--color-bg-info);
+      background: var(--color-primary-main);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -476,7 +608,7 @@
 
     .agent-icon-circle .material-icons-outlined {
       font-size: 18px;
-      color: var(--color-primary-main);
+      color: var(--color-text-contrast);
     }
 
     .agent-title {
@@ -636,13 +768,39 @@
     .action-row.success .material-icons-outlined { color: var(--color-text-success); }
     .action-row.pending .material-icons-outlined { color: var(--color-text-tertiary); }
 
+    /* Live action ticker inside card */
+    .card-live-action {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      padding: 12px 12px 4px;
+      min-height: 76px;
+    }
+    .card-live-action .log-action:last-child {
+      padding-bottom: 8px;
+    }
+    .card-live-reasoning {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 4px;
+    }
+
+    @keyframes cardItemLeave {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-8px); }
+    }
+    .card-live-action-item--leaving {
+      animation: cardItemLeave 0.3s ease-in both;
+    }
+
     /* Card footer */
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding-top: 16px;
-      border-top: 1px solid var(--color-bg-secondary);
       margin-top: 8px;
     }
 
@@ -784,84 +942,527 @@
       margin-bottom: 16px;
     }
 
-    .log-item {
-      display: flex;
-      gap: 12px;
-      padding-bottom: 18px;
-      margin-bottom: 18px;
-      border-bottom: 1px solid var(--color-bg-secondary);
+    /* ── Log bundles ── */
+    .log-bundle {
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      padding: 12px;
+      margin-bottom: 8px;
     }
-
-    .log-item:last-child {
-      border-bottom: none;
+    .log-bundle:last-child {
       margin-bottom: 0;
     }
 
-    .log-icon {
-      width: 18px;
-      height: 18px;
+    .log-bundle-header {
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-bg-tertiary);
+      margin-bottom: 10px;
+    }
+
+    .log-bundle-reasoning {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+    }
+
+    .log-bundle-tag {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-bg-info);
+      color: var(--color-primary-main);
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 16px;
+      padding: 2px 8px;
       border-radius: var(--radius-full);
-      border: 2px solid var(--color-primary-main);
+      margin-bottom: 6px;
+    }
+
+    .log-bundle-see-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--color-bg-tertiary);
+      width: 100%;
+      background: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      padding-left: 0;
+      padding-right: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary-main);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .log-bundle-actions {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .log-action {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--color-bg-tertiary);
+    }
+    .log-action:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .log-action-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      margin-top: 3px;
+    }
+    .log-action-icon.in-progress {
+      border: 2.5px solid var(--color-bg-tertiary);
+      border-top-color: var(--color-primary-main);
+      border-right-color: var(--color-primary-main);
+      animation: spin 0.75s linear infinite;
+    }
+    .log-action-icon.completed {
+      background: var(--color-bg-info);
+    }
+    .log-action-icon.completed .material-icons-outlined {
+      font-size: 11px !important;
+      color: var(--color-primary-main);
+      line-height: 1 !important;
+    }
+    .log-action-icon.completing {
+      animation: completePop 0.3s ease-out both;
     }
 
-    .log-icon-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: var(--radius-full);
-      border: 1.5px solid var(--color-primary-main);
-    }
+    .log-action--hidden { display: none; }
 
-    .log-body { flex: 1; min-width: 0; }
+    .log-action-body { flex: 1; min-width: 0; }
 
-    .log-item-title {
+    .log-action-title {
       font-size: 13px;
       font-weight: 600;
       line-height: 18px;
       color: var(--color-text-primary);
-      margin-bottom: 1px;
+      margin-bottom: 2px;
     }
 
-    .log-item-cat {
-      font-size: 11px;
-      line-height: 16px;
-      color: var(--color-text-tertiary);
-      margin-bottom: 6px;
-    }
-
-    .log-item-desc {
+    .log-action-desc {
       font-size: 12px;
-      line-height: 18px;
+      line-height: 17px;
       color: var(--color-text-secondary);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
-    .log-item-footer {
+    .log-action-meta {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 8px;
     }
 
-    .log-time {
+    .log-action-cat {
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--color-text-tertiary);
+    }
+
+    .log-action-time {
       font-size: 11px;
       color: var(--color-text-disabled);
     }
 
-    .badge-progress {
-      background: var(--color-bg-info);
-      color: var(--color-primary-main);
+    #card-finding-carriers,
+    #bundle-finding-carriers { display: none; }
+
+    @keyframes cardSlideDown {
+      from {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-20px);
+        margin-bottom: 0;
+      }
+      to {
+        max-height: 500px;
+        opacity: 1;
+        transform: translateY(0);
+        margin-bottom: 16px;
+      }
+    }
+    .card--reveal {
+      overflow: hidden;
+      animation: cardSlideDown 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .log-bundle--reveal {
+      animation: slideInDown 0.35s ease-out both;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes completePop {
+      0%   { transform: scale(0.5); opacity: 0; }
+      60%  { transform: scale(1.2); }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+
+    .log-action--new {
+      animation: slideInDown 0.3s ease-out both;
+    }
+    /* ─── Drawer Overlay ─── */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--color-bg-overlay);
+      z-index: 250;
+    }
+    .drawer-overlay.open { display: block; }
+
+    /* ─── Drawer Panel ─── */
+    .drawer {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 580px;
+      height: 100vh;
+      background: var(--color-bg-default);
+      box-shadow: -4px 0 32px rgba(56,54,212,0.12);
+      z-index: 260;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .drawer.open { display: flex; }
+
+    .drawer-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background: var(--color-bg-default);
+      z-index: 1;
+    }
+    .drawer-header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .drawer-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+    }
+    .drawer-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 20px;
+      color: var(--color-text-tertiary);
+      margin-top: 2px;
+    }
+    .drawer-close {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; border-radius: var(--radius-small);
+      background: transparent;
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .drawer-close:hover { background: var(--color-bg-secondary); }
+    .drawer-close .material-icons-outlined { font-size: 20px; }
+
+    .drawer-metrics {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .drawer-metric {
+      flex: 1;
+      padding: 16px 20px;
+      border-right: 1px solid var(--color-border);
+    }
+    .drawer-metric:last-child { border-right: none; }
+    .drawer-metric-value {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 30px;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+    }
+    .drawer-metric-label {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      margin-top: 2px;
+    }
+
+    .drawer-tags-section {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .drawer-tags-row { display: flex; flex-direction: column; gap: 6px; }
+    .drawer-tags-section .section-label { margin-bottom: 0; }
+    .drawer-tags-section .lane-tags { margin-bottom: 0; }
+
+    .drawer-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+    .drawer-section-label {
       font-size: 11px;
       font-weight: 600;
-      line-height: 1;
+      line-height: 16px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    /* ─── Agent Cards ─── */
+    .agent-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-large);
+      overflow: hidden;
+    }
+    .agent-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 16px 16px 12px;
+      gap: 12px;
+    }
+    .agent-card-title-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .agent-status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .agent-status-dot.active  { background: #10b981; }
+    .agent-status-dot.waiting { background: var(--color-yellow-500); }
+    .agent-status-dot.done    { background: #10b981; }
+    .agent-card-title-group .live-dot { margin-top: 6px; }
+
+    .agent-card-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 20px;
+      color: var(--color-text-primary);
+    }
+    .agent-card-lane {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      margin-top: 1px;
+    }
+
+    .agent-status-badge {
+      display: inline-flex; align-items: center;
       padding: 3px 8px;
       border-radius: var(--radius-full);
-      white-space: nowrap;
+      font-size: 11px; font-weight: 600; line-height: 16px;
+      white-space: nowrap; flex-shrink: 0;
     }
+    .agent-status-badge.in-progress {
+      background: var(--color-bg-warning);
+      color: var(--color-text-warning);
+    }
+    .agent-status-badge.waiting {
+      background: var(--color-bg-info);
+      color: var(--color-primary-main);
+    }
+    .agent-status-badge.done {
+      background: var(--color-bg-success);
+      color: var(--color-text-success);
+    }
+
+    /* Agent stat chips */
+    .agent-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0 16px 14px;
+    }
+    .agent-stat {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      font-size: 12px; font-weight: 500; line-height: 18px;
+      color: var(--color-text-secondary);
+      background: var(--color-bg-default);
+    }
+    .agent-stat .material-icons-outlined { font-size: 13px; color: var(--color-text-tertiary); }
+    .agent-stat.urgent { border-color: #fbbf24; color: var(--color-text-warning); background: var(--color-bg-warning); }
+    .agent-stat.urgent .material-icons-outlined { color: var(--color-text-warning); }
+
+    /* Bundles inside agent card */
+    .agent-bundles {
+      border-top: 1px solid var(--color-border);
+    }
+    .agent-bundle {
+      border-bottom: 1px solid var(--color-border);
+    }
+    .agent-bundle:last-child { border-bottom: none; }
+
+    .agent-bundle-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      background: var(--color-bg-subtle);
+    }
+    .agent-bundle-header:hover { background: var(--color-bg-secondary); }
+
+    .agent-bundle-reasoning {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      flex: 1;
+    }
+    .bundle-chevron {
+      font-size: 16px !important;
+      color: var(--color-text-tertiary);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .agent-bundle.expanded .bundle-chevron { transform: rotate(180deg); }
+
+    .agent-bundle-actions {
+      display: none;
+      padding: 12px;
+      background: var(--color-bg-default);
+    }
+    .agent-bundle.expanded .agent-bundle-actions { display: block; }
+
+    /* Bundle step label */
+    .bundle-step-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--color-text-tertiary);
+    }
+    .bundle-step-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .bundle-step-dot.completed  { background: #10b981; }
+    .bundle-step-dot.in-progress { background: var(--color-yellow-500); }
+    .bundle-step-dot.pending    { background: var(--color-text-disabled); }
+
+    .agent-bundle--pending .agent-bundle-header { cursor: default; }
+    .agent-bundle--pending .agent-bundle-header:hover { background: var(--color-bg-subtle); }
+    .agent-bundle--pending .agent-bundle-reasoning { color: var(--color-text-disabled); }
+    .agent-bundle--pending .bundle-chevron { display: none; }
+
+    /* Checkbox icon for completed bundles */
+    .bundle-step-check {
+      font-size: 16px !important;
+      color: #10b981;
+      flex-shrink: 0;
+    }
+
+    /* Reasoning shown inside expanded actions area */
+    .bundle-reasoning {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--color-text-tertiary);
+      padding: 8px 16px 10px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    /* Active bundle: slightly more prominent step label */
+    .agent-bundle--active .bundle-step-label { color: var(--color-text-secondary); }
+
+    /* Bundle step footer — reuses card-footer pattern, slightly tighter */
+    .agent-bundle-actions .card-footer {
+      margin-top: 8px;
+      padding-top: 12px;
+    }
+
+    /* Live cycling container inside active drawer bundles */
+    .drawer-live-container { display: flex; flex-direction: column; }
+    .drawer-live-container .card-live-reasoning {
+      margin: 0;
+      padding: 8px 16px 10px;
+      border-radius: 0;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 0;
+    }
+
+    /* Agent KPI grid */
+    .agent-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .agent-kpi-cell {
+      background: var(--color-bg-default);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-medium);
+      padding: 10px 12px;
+    }
+    .agent-kpi-cell.urgent {
+      border-color: #fbbf24;
+      background: var(--color-bg-warning);
+    }
+    .agent-kpi-label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 16px;
+      color: var(--color-text-tertiary);
+      margin-bottom: 6px;
+    }
+    .agent-kpi-cell.urgent .agent-kpi-label { color: var(--color-text-warning); }
+    .agent-kpi-label .material-icons-outlined { font-size: 12px; color: var(--color-primary-main); }
+    .agent-kpi-cell.urgent .agent-kpi-label .material-icons-outlined { color: var(--color-text-warning); }
+    .agent-kpi-value {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 26px;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+    }
+    .agent-kpi-cell.urgent .agent-kpi-value { color: var(--color-text-warning); }
+
   </style>
 </head>
 <body>
@@ -949,16 +1550,22 @@
       </h1>
 
       <!-- ── Live Performance Overview Card ── -->
-      <div class="card">
+      <div class="card card--static">
         <div class="perf-card-header">
           <div class="perf-card-title">
             <div class="live-dot"></div>
             Live performance overview
           </div>
-          <div class="filter-pill">
-            <span class="material-icons-outlined">calendar_today</span>
-            Last 30 days
-            <span class="material-icons-outlined">expand_more</span>
+          <div class="field-icon-wrap has-lead">
+            <span class="field-icon-lead">
+              <span class="material-icons-outlined">calendar_today</span>
+            </span>
+            <select class="field field-sm">
+              <option>Last 30 days</option>
+              <option>Last 7 days</option>
+              <option>Last 90 days</option>
+              <option>Last year</option>
+            </select>
           </div>
         </div>
 
@@ -1029,7 +1636,7 @@
       </div>
 
       <!-- ── Agent Card 1: Finding new carriers ── -->
-      <div class="card">
+      <div class="card" id="card-finding-carriers">
         <div class="agent-header">
           <div class="agent-title-group">
             <div class="agent-icon-circle">
@@ -1049,26 +1656,27 @@
               <span class="material-icons-outlined">description</span>
               Procurement
             </span>
+            <span class="card-new-badge">New</span>
           </div>
         </div>
 
         <div class="metrics-row">
           <div class="metric-chip">
             <div class="metric-icon-wrap">
-              <span class="material-icons-outlined">inventory_2</span>
+              <span class="material-icons-outlined">local_shipping</span>
             </div>
             <div>
-              <div class="metric-value">10 <small>/week</small></div>
-              <div class="metric-label">Loads recovered</div>
+              <div class="metric-value">1</div>
+              <div class="metric-label">Load affected</div>
             </div>
           </div>
           <div class="metric-chip">
             <div class="metric-icon-wrap">
-              <span class="material-icons-outlined">payments</span>
+              <span class="material-icons-outlined">support_agent</span>
             </div>
             <div>
-              <div class="metric-value">$312k</div>
-              <div class="metric-label">Cost avoided</div>
+              <div class="metric-value">1</div>
+              <div class="metric-label">Agent running</div>
             </div>
           </div>
           <div class="metric-chip">
@@ -1076,8 +1684,8 @@
               <span class="material-icons-outlined">route</span>
             </div>
             <div>
-              <div class="metric-value">2</div>
-              <div class="metric-label">Lanes</div>
+              <div class="metric-value">1</div>
+              <div class="metric-label">Lane</div>
             </div>
           </div>
         </div>
@@ -1088,19 +1696,8 @@
         </div>
 
         <div class="latest-actions">
-          <div class="section-label">Latest actions</div>
-          <div class="action-row success">
-            <span class="material-icons-outlined">check_circle</span>
-            Finding new carrier for order 872890997 today at 5:25pm
-          </div>
-          <div class="action-row pending">
-            <span class="material-icons-outlined">pending</span>
-            Echo Logistics couldn't pick up order 55568443, replacing with new carrier.
-          </div>
-          <div class="action-row pending">
-            <span class="material-icons-outlined">pending</span>
-            Maverick couldn't pick up order 887545728, replacing with new carrier.
-          </div>
+          <div class="section-label">Latest action</div>
+          <div class="card-live-action" id="card-live-0"></div>
         </div>
 
         <div class="card-footer">
@@ -1171,19 +1768,8 @@
         </div>
 
         <div class="latest-actions">
-          <div class="section-label">Latest actions</div>
-          <div class="action-row success">
-            <span class="material-icons-outlined">check_circle</span>
-            Analyzed carrier performance across 12 lanes, identified optimizations.
-          </div>
-          <div class="action-row pending">
-            <span class="material-icons-outlined">pending</span>
-            Negotiating updated rate agreements with top 3 carriers on Miami → Dallas lane.
-          </div>
-          <div class="action-row pending">
-            <span class="material-icons-outlined">pending</span>
-            Reviewing tender acceptance history for Orlando → Richmond route.
-          </div>
+          <div class="section-label">Latest action</div>
+          <div class="card-live-action" id="card-live-1"></div>
         </div>
 
         <div class="card-footer">
@@ -1253,19 +1839,8 @@
         </div>
 
         <div class="latest-actions">
-          <div class="section-label">Latest actions</div>
-          <div class="action-row pending">
-            <span class="material-icons-outlined">pending</span>
-            Negotiating 2 ending contracts.
-          </div>
-          <div class="action-row pending">
-            <span class="material-icons-outlined">pending</span>
-            Reviewing contract terms for Nashville → Austin lane with Logiflex.
-          </div>
-          <div class="action-row success">
-            <span class="material-icons-outlined">check_circle</span>
-            Completed renewal for Chicago → Memphis contract with FastFreight.
-          </div>
+          <div class="section-label">Latest action</div>
+          <div class="card-live-action" id="card-live-2"></div>
         </div>
 
         <div class="card-footer">
@@ -1293,8 +1868,8 @@
             <!-- Alerts -->
             <div class="stat-cell">
               <div class="stat-cell-header">
-                <div class="stat-label" style="color:#ef4444">
-                  <span class="material-icons-outlined" style="font-size:14px;color:#ef4444">notifications</span>
+                <div class="stat-label" style="color:var(--color-primary-main)">
+                  <span class="material-icons-outlined" style="font-size:14px;color:var(--color-primary-main)">notifications</span>
                   Alerts
                 </div>
                 <span class="material-icons-outlined stat-filter">filter_list</span>
@@ -1317,8 +1892,8 @@
             <!-- Procurement -->
             <div class="stat-cell">
               <div class="stat-cell-header">
-                <div class="stat-label" style="color:var(--color-gradient-pi-500)">
-                  <span class="material-icons-outlined" style="font-size:14px;color:var(--color-gradient-pi-500)">description</span>
+                <div class="stat-label" style="color:var(--color-primary-main)">
+                  <span class="material-icons-outlined" style="font-size:14px;color:var(--color-primary-main)">description</span>
                   Procurement
                 </div>
                 <span class="material-icons-outlined stat-filter">filter_list</span>
@@ -1329,8 +1904,8 @@
             <!-- Bookings -->
             <div class="stat-cell">
               <div class="stat-cell-header">
-                <div class="stat-label" style="color:#2563eb">
-                  <span class="material-icons-outlined" style="font-size:14px;color:#2563eb">calendar_today</span>
+                <div class="stat-label" style="color:var(--color-primary-main)">
+                  <span class="material-icons-outlined" style="font-size:14px;color:var(--color-primary-main)">calendar_today</span>
                   Bookings
                 </div>
                 <span class="material-icons-outlined stat-filter">filter_list</span>
@@ -1345,88 +1920,840 @@
         <div class="action-log">
           <div class="action-log-title">Action log</div>
 
-          <div class="log-item">
-            <div class="log-icon"><div class="log-icon-dot"></div></div>
-            <div class="log-body">
-              <div class="log-item-title">Finding a new carrier</div>
-              <div class="log-item-cat">Bookings</div>
-              <div class="log-item-desc">Echo Logistics couldn't pick up order 55568443, replacing with new carrier.</div>
-              <div class="log-item-footer">
-                <span class="log-time">Jun 11, 2026 · 10:09 pm</span>
-                <span class="badge-progress">In progress</span>
+          <!-- Bundle 1: Carrier disruption response -->
+          <div class="log-bundle" id="bundle-finding-carriers">
+            <div class="log-bundle-header">
+              <span class="log-bundle-tag">Finding new carriers for missing pick-ups</span>
+              <div class="log-bundle-reasoning">Echo Logistics failed to pick up order 55568443. Sourcing a replacement carrier and updating lane preferences to prevent repeat disruptions.</div>
+            </div>
+            <div class="log-bundle-actions">
+              <div class="log-action">
+                <div class="log-action-icon in-progress"></div>
+                <div class="log-action-body">
+                  <div class="log-action-title">Finding a new carrier</div>
+                  <div class="log-action-desc">Echo Logistics couldn't pick up order 55568443, replacing with new carrier.</div>
+                  <div class="log-action-meta">
+                    <span class="log-action-cat">Bookings</span>
+                    <span class="log-action-time">Jun 11, 2026 · 10:09 pm</span>
+                  </div>
+                </div>
+              </div>
+              <div class="log-action log-action--new">
+                <div class="log-action-icon in-progress"></div>
+                <div class="log-action-body">
+                  <div class="log-action-title">Updating carrier preferences</div>
+                  <div class="log-action-desc">Adjusting carrier ranking for Tampa → Denver lane based on recent on-time delivery data.</div>
+                  <div class="log-action-meta">
+                    <span class="log-action-cat">Bookings</span>
+                    <span class="log-action-time">Jun 11, 2026 · 10:05 pm</span>
+                  </div>
+                </div>
               </div>
             </div>
+            <button class="log-bundle-see-more">
+              See more
+              <span class="material-icons-outlined" style="font-size:14px">expand_more</span>
+            </button>
           </div>
 
-          <div class="log-item">
-            <div class="log-icon"><div class="log-icon-dot"></div></div>
-            <div class="log-body">
-              <div class="log-item-title">Renegotiating with existing carrier</div>
-              <div class="log-item-cat">Procurement</div>
-              <div class="log-item-desc">Renegotiating contract with Maverick on Nashville, TN → Portland, OR based on market rate.</div>
-              <div class="log-item-footer">
-                <span class="log-time">Jun 11, 2026 · 10:09 pm</span>
-                <span class="badge-progress">In progress</span>
+          <!-- Bundle 2: Nashville lane performance -->
+          <div class="log-bundle">
+            <div class="log-bundle-header">
+              <span class="log-bundle-tag">Optimizing carrier contracts per lane</span>
+              <div class="log-bundle-reasoning">Carrier performance on Nashville-origin lanes is below target. Renegotiating rates and replacing underperforming carriers on two affected routes.</div>
+            </div>
+            <div class="log-bundle-actions">
+              <div class="log-action">
+                <div class="log-action-icon in-progress"></div>
+                <div class="log-action-body">
+                  <div class="log-action-title">Renegotiating with existing carrier</div>
+                  <div class="log-action-desc">Renegotiating contract with Maverick on Nashville, TN → Portland, OR based on market rate.</div>
+                  <div class="log-action-meta">
+                    <span class="log-action-cat">Procurement</span>
+                    <span class="log-action-time">Jun 11, 2026 · 10:09 pm</span>
+                  </div>
+                </div>
+              </div>
+              <div class="log-action log-action--new">
+                <div class="log-action-icon in-progress"></div>
+                <div class="log-action-body">
+                  <div class="log-action-title">Replacing carrier</div>
+                  <div class="log-action-desc">Replacing Logiflex on Nashville, TN → Austin, TX based on performance analysis.</div>
+                  <div class="log-action-meta">
+                    <span class="log-action-cat">Procurement</span>
+                    <span class="log-action-time">Jun 11, 2026 · 10:07 pm</span>
+                  </div>
+                </div>
               </div>
             </div>
+            <button class="log-bundle-see-more">
+              See more
+              <span class="material-icons-outlined" style="font-size:14px">expand_more</span>
+            </button>
           </div>
 
-          <div class="log-item">
-            <div class="log-icon"><div class="log-icon-dot"></div></div>
-            <div class="log-body">
-              <div class="log-item-title">Negotiating contracts</div>
-              <div class="log-item-cat">Procurement</div>
-              <div class="log-item-desc">Negotiating 2 ending contracts.</div>
-              <div class="log-item-footer">
-                <span class="log-time">Jun 11, 2026 · 10:08 pm</span>
-                <span class="badge-progress">In progress</span>
+          <!-- Bundle 3: Contract renewals -->
+          <div class="log-bundle">
+            <div class="log-bundle-header">
+              <span class="log-bundle-tag">Negotiating ending contracts</span>
+              <div class="log-bundle-reasoning">Two contracts are expiring within 30 days. Negotiating terms and sending renewal proposals before the deadline to maintain lane coverage.</div>
+            </div>
+            <div class="log-bundle-actions">
+              <div class="log-action">
+                <div class="log-action-icon in-progress"></div>
+                <div class="log-action-body">
+                  <div class="log-action-title">Negotiating contracts</div>
+                  <div class="log-action-desc">Negotiating 2 ending contracts.</div>
+                  <div class="log-action-meta">
+                    <span class="log-action-cat">Procurement</span>
+                    <span class="log-action-time">Jun 11, 2026 · 10:08 pm</span>
+                  </div>
+                </div>
+              </div>
+              <div class="log-action log-action--new">
+                <div class="log-action-icon completed">
+                  <span class="material-icons-outlined">check</span>
+                </div>
+                <div class="log-action-body">
+                  <div class="log-action-title">Contract renewal outreach</div>
+                  <div class="log-action-desc">Sent renewal proposal to FastFreight for the Chicago → Memphis lane.</div>
+                  <div class="log-action-meta">
+                    <span class="log-action-cat">Procurement</span>
+                    <span class="log-action-time">Jun 11, 2026 · 09:58 pm</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="log-item">
-            <div class="log-icon"><div class="log-icon-dot"></div></div>
-            <div class="log-body">
-              <div class="log-item-title">Replacing carrier</div>
-              <div class="log-item-cat">Procurement</div>
-              <div class="log-item-desc">Replacing Logiflex on Nashville, TN → Austin, TX based on performance analysis.</div>
-              <div class="log-item-footer">
-                <span class="log-time">Jun 11, 2026 · 10:07 pm</span>
-                <span class="badge-progress">In progress</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="log-item">
-            <div class="log-icon"><div class="log-icon-dot"></div></div>
-            <div class="log-body">
-              <div class="log-item-title">Updating carrier preferences</div>
-              <div class="log-item-cat">Bookings</div>
-              <div class="log-item-desc">Adjusting carrier ranking for Tampa → Denver lane based on recent on-time delivery data.</div>
-              <div class="log-item-footer">
-                <span class="log-time">Jun 11, 2026 · 10:05 pm</span>
-                <span class="badge-progress">In progress</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="log-item">
-            <div class="log-icon"><div class="log-icon-dot"></div></div>
-            <div class="log-body">
-              <div class="log-item-title">Contract renewal outreach</div>
-              <div class="log-item-cat">Procurement</div>
-              <div class="log-item-desc">Sending renewal proposal to FastFreight for the Chicago → Memphis lane.</div>
-              <div class="log-item-footer">
-                <span class="log-time">Jun 11, 2026 · 09:58 pm</span>
-                <span class="badge-progress">In progress</span>
-              </div>
-            </div>
+            <button class="log-bundle-see-more">
+              See more
+              <span class="material-icons-outlined" style="font-size:14px">expand_more</span>
+            </button>
           </div>
 
         </div>
       </div>
     </aside>
 
+    <!-- ═══════════════════════════════════════
+         AI CHAT BAR
+    ════════════════════════════════════════ -->
+    <div class="ai-chat-bar">
+      <div class="ai-chat-card">
+        <textarea class="ai-chat-textarea"
+                  placeholder="Type a question to ask our intelligent AI"
+                  rows="1"></textarea>
+        <div class="ai-chat-toolbar">
+          <div class="ai-chat-toolbar-left">
+            <button class="ai-chat-attach-btn">
+              <span class="material-icons-outlined">add</span>
+              Add attachment
+            </button>
+            <button class="ai-chat-icon-btn">
+              <span class="material-icons-outlined">auto_fix_high</span>
+            </button>
+            <button class="ai-chat-icon-btn">
+              <span class="material-icons-outlined">terminal</span>
+            </button>
+          </div>
+          <div class="ai-chat-toolbar-right">
+            <button class="ai-chat-icon-btn">
+              <span class="material-icons-outlined">mic</span>
+            </button>
+            <button class="ai-chat-send-btn">
+              <span class="material-icons-outlined">arrow_upward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         DRAWER OVERLAY
+    ════════════════════════════════════════ -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- ═══════════════════════════════════════
+         EXECUTION RECOVERY DRAWER
+    ════════════════════════════════════════ -->
+    <div class="drawer" id="drawer-recovery">
+
+      <!-- Header -->
+      <div class="drawer-header">
+        <div class="drawer-header-left">
+          <div class="agent-icon-circle">
+            <span class="material-icons-outlined">local_shipping</span>
+          </div>
+          <div>
+            <div class="drawer-title">Finding new carriers for missing pick-ups</div>
+            <div class="drawer-subtitle">Original carriers could not pick-up</div>
+          </div>
+        </div>
+        <button class="drawer-close" id="drawer-close">
+          <span class="material-icons-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Top metrics -->
+      <div class="drawer-metrics">
+        <div class="drawer-metric">
+          <div class="drawer-metric-value">1</div>
+          <div class="drawer-metric-label">Load affected</div>
+        </div>
+        <div class="drawer-metric">
+          <div class="drawer-metric-value">1</div>
+          <div class="drawer-metric-label">Agent running</div>
+        </div>
+        <div class="drawer-metric">
+          <div class="drawer-metric-value">6h</div>
+          <div class="drawer-metric-label">Time to pickup</div>
+        </div>
+        <div class="drawer-metric">
+          <div class="drawer-metric-value">Echo</div>
+          <div class="drawer-metric-label">Original carrier</div>
+        </div>
+      </div>
+
+      <!-- Lane & BOL tags -->
+      <div class="drawer-tags-section">
+        <div class="drawer-tags-row">
+          <div class="section-label">Impacted Lane</div>
+          <div class="lane-tags">
+            <span class="lane-tag">Tampa, FL → Salt Lake City, UT</span>
+          </div>
+        </div>
+        <div class="drawer-tags-row">
+          <div class="section-label">BOL</div>
+          <div class="lane-tags">
+            <span class="lane-tag">#55568443</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="drawer-body">
+        <div class="drawer-section-label">Active agents</div>
+
+        <!-- ── Rebooking Agent ── -->
+        <div class="agent-card">
+          <div class="agent-card-header">
+            <div class="agent-card-title-group">
+              <div class="live-dot"></div>
+              <div>
+                <div class="agent-card-name">Rebooking Agent</div>
+                <div class="agent-card-lane">BOL #55568443 · Tampa, FL → Salt Lake City, UT</div>
+              </div>
+            </div>
+            <span class="agent-status-badge waiting">Awaiting confirmation</span>
+          </div>
+          <div class="agent-kpi-grid">
+            <div class="agent-kpi-cell">
+              <div class="agent-kpi-label"><span class="material-icons-outlined">call</span> Carriers</div>
+              <div class="agent-kpi-value">4</div>
+            </div>
+            <div class="agent-kpi-cell">
+              <div class="agent-kpi-label"><span class="material-icons-outlined">request_quote</span> Quotes</div>
+              <div class="agent-kpi-value">2</div>
+            </div>
+            <div class="agent-kpi-cell urgent">
+              <div class="agent-kpi-label"><span class="material-icons-outlined">schedule</span> To pickup</div>
+              <div class="agent-kpi-value">6h</div>
+            </div>
+            <div class="agent-kpi-cell">
+              <div class="agent-kpi-label"><span class="material-icons-outlined">trending_up</span> Surcharge</div>
+              <div class="agent-kpi-value">+25%</div>
+            </div>
+          </div>
+          <div class="agent-bundles">
+
+            <!-- Cancellation Detection — completed, collapsed -->
+            <div class="agent-bundle">
+              <div class="agent-bundle-header" onclick="toggleBundle(this)">
+                <div class="bundle-step-label">
+                  <div class="log-action-icon completed"><span class="material-icons-outlined">check</span></div>
+                  Cancellation Detection
+                </div>
+                <span class="material-icons-outlined bundle-chevron">expand_more</span>
+              </div>
+              <div class="agent-bundle-actions">
+                <div class="log-bundle">
+                  <div class="log-bundle-header">
+                    <div class="log-bundle-reasoning">Lunapath monitored the shared mailbox and received a cancellation email from Echo Logistics for BOL #55568443. Pickup is 6 hours away — urgent recovery initiated.</div>
+                  </div>
+                  <div class="log-bundle-actions">
+                    <div class="log-action">
+                      <div class="log-action-icon completed"><span class="material-icons-outlined">check</span></div>
+                      <div class="log-action-body">
+                        <div class="log-action-title">Webhook triggered to tms-agents</div>
+                        <div class="log-action-desc">POST /rebooking/handle-booking-cancellation · action: CANCEL · source: EMAIL · reason: Equipment breakdown.</div>
+                        <div class="log-action-meta"><span class="log-action-cat">Bookings</span><span class="log-action-time">Jun 11, 2026 · 2:16 pm</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="card-footer-count">2 actions taken</span>
+                  <span class="card-footer-link">View all <span class="material-icons-outlined">arrow_forward</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fetch Original Booking — completed, collapsed -->
+            <div class="agent-bundle">
+              <div class="agent-bundle-header" onclick="toggleBundle(this)">
+                <div class="bundle-step-label">
+                  <div class="log-action-icon completed"><span class="material-icons-outlined">check</span></div>
+                  Fetch Original Booking
+                </div>
+                <span class="material-icons-outlined bundle-chevron">expand_more</span>
+              </div>
+              <div class="agent-bundle-actions">
+                <div class="log-bundle">
+                  <div class="log-bundle-header">
+                    <div class="log-bundle-reasoning">Pulling full booking details from TMS — lane, equipment type, scheduled pickup time, and shipper contact information needed for rebooking.</div>
+                  </div>
+                  <div class="log-bundle-actions">
+                    <div class="log-action">
+                      <div class="log-action-icon completed"><span class="material-icons-outlined">check</span></div>
+                      <div class="log-action-body">
+                        <div class="log-action-title">Booking fields extracted for rebooking</div>
+                        <div class="log-action-desc">routeSegments, capacityProviderIdentifier, shipperContactInfo, totalRate, and transportationMode confirmed and stored.</div>
+                        <div class="log-action-meta"><span class="log-action-cat">Bookings</span><span class="log-action-time">Jun 11, 2026 · 2:17 pm</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="card-footer-count">2 actions taken</span>
+                  <span class="card-footer-link">View all <span class="material-icons-outlined">arrow_forward</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mark Booking as Cancelled — completed, collapsed -->
+            <div class="agent-bundle">
+              <div class="agent-bundle-header" onclick="toggleBundle(this)">
+                <div class="bundle-step-label">
+                  <div class="log-action-icon completed"><span class="material-icons-outlined">check</span></div>
+                  Mark Booking as Cancelled
+                </div>
+                <span class="material-icons-outlined bundle-chevron">expand_more</span>
+              </div>
+              <div class="agent-bundle-actions">
+                <div class="log-bundle">
+                  <div class="log-bundle-header">
+                    <div class="log-bundle-reasoning">Echo Logistics cancelled on their end but TMS still shows the booking as active. Updating our system to reflect reality and notifying the shipper.</div>
+                  </div>
+                  <div class="log-bundle-actions">
+                    <div class="log-action">
+                      <div class="log-action-icon completed"><span class="material-icons-outlined">check</span></div>
+                      <div class="log-action-body">
+                        <div class="log-action-title">Cancellation webhook sent to shipper</div>
+                        <div class="log-action-desc">John Smith notified of Echo Logistics cancellation for BOL #55568443.</div>
+                        <div class="log-action-meta"><span class="log-action-cat">Bookings</span><span class="log-action-time">Jun 11, 2026 · 2:18 pm</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <span class="card-footer-count">2 actions taken</span>
+                  <span class="card-footer-link">View all <span class="material-icons-outlined">arrow_forward</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prepare for Rebooking — ACTIVE, live cycling -->
+            <div class="agent-bundle agent-bundle--active expanded">
+              <div class="agent-bundle-header" onclick="toggleBundle(this)">
+                <div class="bundle-step-label">
+                  <div class="live-dot"></div>
+                  Prepare for Rebooking
+                </div>
+                <span class="material-icons-outlined bundle-chevron">expand_more</span>
+              </div>
+              <div class="agent-bundle-actions">
+                <div class="log-bundle" id="drawer-bundle-step4">
+                  <div class="log-bundle-header" style="display:none">
+                    <div class="log-bundle-reasoning"></div>
+                  </div>
+                  <div class="log-bundle-actions" id="drawer-step4-container"></div>
+                </div>
+                <div class="card-footer" id="drawer-step4-cta" style="display:none">
+                  <span class="card-footer-count"><span class="counter-num">0</span> actions taken</span>
+                  <span class="card-footer-link">View all <span class="material-icons-outlined">arrow_forward</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dispatch Carrier Quote Requests — ACTIVE, live cycling -->
+            <div class="agent-bundle agent-bundle--active expanded">
+              <div class="agent-bundle-header" onclick="toggleBundle(this)">
+                <div class="bundle-step-label">
+                  <div class="live-dot"></div>
+                  Dispatch Carrier Quote Requests
+                </div>
+                <span class="material-icons-outlined bundle-chevron">expand_more</span>
+              </div>
+              <div class="agent-bundle-actions">
+                <div class="log-bundle" id="drawer-bundle-step5">
+                  <div class="log-bundle-header" style="display:none">
+                    <div class="log-bundle-reasoning"></div>
+                  </div>
+                  <div class="log-bundle-actions" id="drawer-step5-container"></div>
+                </div>
+                <div class="card-footer" id="drawer-step5-cta" style="display:none">
+                  <span class="card-footer-count"><span class="counter-num">0</span> actions taken</span>
+                  <span class="card-footer-link">View all <span class="material-icons-outlined">arrow_forward</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Collect Carrier Quotes — pending -->
+            <div class="agent-bundle agent-bundle--pending">
+              <div class="agent-bundle-header">
+                <div class="bundle-step-label">
+                  <span class="bundle-step-dot pending"></span>
+                  Collect Carrier Quotes
+                </div>
+              </div>
+            </div>
+
+            <!-- Evaluate Quotes — pending -->
+            <div class="agent-bundle agent-bundle--pending">
+              <div class="agent-bundle-header">
+                <div class="bundle-step-label">
+                  <span class="bundle-step-dot pending"></span>
+                  Evaluate Quotes
+                </div>
+              </div>
+            </div>
+
+            <!-- Get Shipper Confirmation — pending -->
+            <div class="agent-bundle agent-bundle--pending">
+              <div class="agent-bundle-header">
+                <div class="bundle-step-label">
+                  <span class="bundle-step-dot pending"></span>
+                  Get Shipper Confirmation
+                </div>
+              </div>
+            </div>
+
+            <!-- Create Replacement Booking — pending -->
+            <div class="agent-bundle agent-bundle--pending">
+              <div class="agent-bundle-header">
+                <div class="bundle-step-label">
+                  <span class="bundle-step-dot pending"></span>
+                  Create Replacement Booking
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
+
+  <script>
+  (function () {
+    const MAX_VISIBLE = 2;
+
+    // Contextual action queues per bundle
+    const queues = [
+      // Bundle 0 — Finding new carriers for missing pick-ups
+      [
+        { title: 'Contacting Werner Enterprises dispatch', desc: 'Requesting available capacity for order 55568443 on Tampa → Salt Lake City.', cat: 'Bookings', reason: 'Echo Logistics failed to pick up order 55568443. Sourcing a replacement carrier on the Tampa → Salt Lake City lane.' },
+        { title: 'Verifying pickup window with J.B. Hunt', desc: 'Confirming 4-hour pickup availability before committing order 55568443.', cat: 'Bookings', reason: 'Werner Enterprises has capacity but needs the pickup window confirmed before committing to the load.' },
+        { title: 'Updating order 55568443 status', desc: 'Marking shipment as re-assigned pending carrier confirmation.', cat: 'Bookings', reason: 'New carrier confirmed. Updating order status while awaiting final carrier sign-off.' },
+        { title: 'Notifying origin warehouse', desc: 'Sending updated carrier details to Tampa facility for handoff.', cat: 'Bookings', reason: 'Carrier reassignment complete. Notifying Tampa facility so the handoff goes smoothly.' },
+      ],
+      // Bundle 1 — Optimizing carrier contracts per lane
+      [
+        { title: 'Pulling lane rate benchmarks', desc: 'Comparing spot rates on Nashville → Portland against current Maverick contract.', cat: 'Procurement', reason: 'Carrier performance on Nashville-origin lanes is below target. Renegotiating rates to close the gap.' },
+        { title: 'Drafting counter-proposal for Maverick', desc: 'Preparing revised terms based on 12-month volume commitment.', cat: 'Procurement', reason: 'Maverick\'s current rate is above market benchmarks. Preparing revised terms to improve margins.' },
+        { title: 'Shortlisting Logiflex replacements', desc: 'Identifying top 3 carriers by OTD score on Nashville → Austin lane.', cat: 'Procurement', reason: 'Logiflex on-time delivery on Nashville → Austin dropped below threshold. Evaluating alternatives.' },
+        { title: 'Sending revised RFQ to carriers', desc: 'Requesting updated bids for Nashville → Austin to support replacement decision.', cat: 'Procurement', reason: 'Replacement shortlist is ready. Requesting updated bids to finalize the carrier selection.' },
+      ],
+      // Bundle 2 — Negotiating ending contracts
+      [
+        { title: 'Reviewing Werner Enterprises contract', desc: 'Checking expiry date and auto-renewal clause before outreach.', cat: 'Procurement', reason: 'Two contracts are expiring within 30 days. Reviewing terms before opening renewal discussions.' },
+        { title: 'Scheduling call with FastFreight', desc: 'Booking negotiation call to discuss updated Chicago → Memphis terms.', cat: 'Procurement', reason: 'FastFreight renewal requires rate negotiation. Booking a call to align on updated terms.' },
+        { title: 'Preparing rate comparison deck', desc: 'Building market comparison to support renewal negotiation with both carriers.', cat: 'Procurement', reason: 'Market data needed to support both renewal negotiations. Building a comparison analysis.' },
+        { title: 'Sending renewal reminder to Werner', desc: 'Notifying Werner of upcoming expiry and opening revised rate discussion.', cat: 'Procurement', reason: 'Werner contract expiry is approaching. Opening discussion to lock in revised rates before the deadline.' },
+      ],
+    ];
+
+    // Clustered queues for main cards — each cluster has a shared reason + 2-3 actions
+    const cardQueues = [
+      // Card 0 — Finding new carriers for missing pick-ups
+      [
+        {
+          reason: 'Echo Logistics failed to pick up order 55568443. Sourcing a replacement carrier on the Tampa → Salt Lake City lane.',
+          actions: [
+            { title: 'Contacting Werner Enterprises dispatch', desc: 'Requesting available capacity for order 55568443 on Tampa → Salt Lake City.', cat: 'Bookings' },
+            { title: 'Verifying pickup window with J.B. Hunt', desc: 'Confirming 4-hour pickup availability before committing order 55568443.', cat: 'Bookings' },
+          ]
+        },
+        {
+          reason: 'New carrier confirmed. Updating records and notifying relevant parties to complete the reassignment.',
+          actions: [
+            { title: 'Updating order 55568443 status', desc: 'Marking shipment as re-assigned pending carrier confirmation.', cat: 'Bookings' },
+            { title: 'Notifying origin warehouse', desc: 'Sending updated carrier details to Tampa facility for handoff.', cat: 'Bookings' },
+          ]
+        },
+      ],
+      // Card 1 — Optimizing carrier contracts per lane
+      [
+        {
+          reason: 'Carrier performance on Nashville-origin lanes is below target. Renegotiating rates to close the gap.',
+          actions: [
+            { title: 'Pulling lane rate benchmarks', desc: 'Comparing spot rates on Nashville → Portland against current Maverick contract.', cat: 'Procurement' },
+            { title: 'Drafting counter-proposal for Maverick', desc: 'Preparing revised terms based on 12-month volume commitment.', cat: 'Procurement' },
+          ]
+        },
+        {
+          reason: 'Logiflex OTD on Nashville → Austin dropped below threshold. Evaluating replacements.',
+          actions: [
+            { title: 'Shortlisting Logiflex replacements', desc: 'Identifying top 3 carriers by OTD score on Nashville → Austin lane.', cat: 'Procurement' },
+            { title: 'Sending revised RFQ to carriers', desc: 'Requesting updated bids for Nashville → Austin to support replacement decision.', cat: 'Procurement' },
+          ]
+        },
+      ],
+      // Card 2 — Negotiating ending contracts
+      [
+        {
+          reason: 'Two contracts expiring within 30 days. Reviewing terms before opening renewal discussions.',
+          actions: [
+            { title: 'Reviewing Werner Enterprises contract', desc: 'Checking expiry date and auto-renewal clause before outreach.', cat: 'Procurement' },
+            { title: 'Scheduling call with FastFreight', desc: 'Booking negotiation call to discuss updated Chicago → Memphis terms.', cat: 'Procurement' },
+          ]
+        },
+        {
+          reason: 'Market analysis and outreach underway to finalize terms before the deadline.',
+          actions: [
+            { title: 'Preparing rate comparison deck', desc: 'Building market comparison to support renewal negotiation with both carriers.', cat: 'Procurement' },
+            { title: 'Sending renewal reminder to Werner', desc: 'Notifying Werner of upcoming expiry and opening revised rate discussion.', cat: 'Procurement' },
+          ]
+        },
+      ],
+    ];
+
+    const indices     = [0, 0, 0];
+    const cardCursors = [
+      { cluster: 0, action: 0 },
+      { cluster: 0, action: 0 },
+      { cluster: 0, action: 0 },
+    ];
+
+    function nowLabel() {
+      const d = new Date();
+      let h = d.getHours() % 12 || 12;
+      const m = String(d.getMinutes()).padStart(2, '0');
+      const ampm = d.getHours() >= 12 ? 'pm' : 'am';
+      return `Jun 11, 2026 · ${h}:${m} ${ampm}`;
+    }
+
+    function refreshVisibility(container, seeMoreBtn) {
+      const actions = Array.from(container.querySelectorAll('.log-action'));
+      actions.forEach((el, i) => el.classList.toggle('log-action--hidden', i >= MAX_VISIBLE));
+      const hidden = actions.length - Math.min(actions.length, MAX_VISIBLE);
+      seeMoreBtn.innerHTML = hidden > 0
+        ? `${hidden} more action${hidden > 1 ? 's' : ''} <span class="material-icons-outlined" style="font-size:14px">expand_more</span>`
+        : `See more <span class="material-icons-outlined" style="font-size:14px">expand_more</span>`;
+    }
+
+    function completeIcon(iconEl) {
+      iconEl.className = 'log-action-icon completed completing';
+      iconEl.innerHTML = '<span class="material-icons-outlined">check</span>';
+      setTimeout(() => iconEl.classList.remove('completing'), 350);
+    }
+
+    function addAction(bundleEl, queueIndex) {
+      const container = bundleEl.querySelector('.log-bundle-actions');
+      const seeMoreBtn = bundleEl.querySelector('.log-bundle-see-more');
+      const q = queues[queueIndex];
+      const item = q[indices[queueIndex] % q.length];
+      indices[queueIndex]++;
+
+      const el = document.createElement('div');
+      el.className = 'log-action log-action--new';
+      el.innerHTML = `
+        <div class="log-action-icon in-progress"></div>
+        <div class="log-action-body">
+          <div class="log-action-title">${item.title}</div>
+          <div class="log-action-desc">${item.desc}</div>
+          <div class="log-action-meta">
+            <span class="log-action-cat">${item.cat}</span>
+            <span class="log-action-time">${nowLabel()}</span>
+          </div>
+        </div>`;
+
+      container.insertBefore(el, container.firstChild);
+      refreshVisibility(container, seeMoreBtn);
+
+      // Complete after 5–7 s
+      const icon = el.querySelector('.log-action-icon');
+      setTimeout(() => completeIcon(icon), 5000 + Math.random() * 2000);
+    }
+
+    function cycleCardAction(containerId, queueIndex) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const clusters = cardQueues[queueIndex];
+      const cursor   = cardCursors[queueIndex];
+      const cluster  = clusters[cursor.cluster % clusters.length];
+      const item     = cluster.actions[cursor.action];
+
+      // Update reasoning only at the start of each cluster
+      if (cursor.action === 0) {
+        let reasoningEl = container.querySelector('.card-live-reasoning');
+        if (!reasoningEl) {
+          reasoningEl = document.createElement('div');
+          reasoningEl.className = 'card-live-reasoning';
+          container.prepend(reasoningEl);
+        }
+        reasoningEl.textContent = cluster.reason;
+      }
+
+      // Advance cursor
+      cursor.action++;
+      if (cursor.action >= cluster.actions.length) {
+        cursor.action = 0;
+        cursor.cluster++;
+      }
+
+      const el = document.createElement('div');
+      el.className = 'log-action log-action--new';
+      el.innerHTML = `
+        <div class="log-action-icon in-progress"></div>
+        <div class="log-action-body">
+          <div class="log-action-title">${item.title}</div>
+          <div class="log-action-desc">${item.desc}</div>
+          <div class="log-action-meta">
+            <span class="log-action-cat">${item.cat}</span>
+            <span class="log-action-time">${nowLabel()}</span>
+          </div>
+        </div>`;
+      container.appendChild(el);
+
+      const icon = el.querySelector('.log-action-icon');
+      // Complete spinner after 5s
+      setTimeout(() => {
+        completeIcon(icon);
+        // Fade out 1.5s after completing
+        setTimeout(() => {
+          el.classList.add('card-live-action-item--leaving');
+          // Remove and cycle next after leave animation
+          setTimeout(() => {
+            el.remove();
+            cycleCardAction(containerId, queueIndex);
+          }, 320);
+        }, 1500);
+      }, 5000);
+    }
+
+    const mainCard  = document.getElementById('card-finding-carriers');
+    const bundle0   = document.getElementById('bundle-finding-carriers');
+    const bundles   = Array.from(document.querySelectorAll('.log-bundle'));
+    // bundles[0] is bundle0, [1] and [2] are always visible
+
+    // Complete pre-existing spinners for bundles 1 & 2 only
+    bundles.slice(1).forEach(bundle => {
+      bundle.querySelectorAll('.log-action-icon.in-progress').forEach((icon, i) => {
+        setTimeout(() => completeIcon(icon), 4000 + i * 2500);
+      });
+    });
+
+    // Bundles 1 & 2 live arrivals (unchanged timing)
+    bundles.slice(1).forEach((bundle, i) => {
+      const qi = i + 1;
+      setTimeout(() => {
+        addAction(bundle, qi);
+        setInterval(() => addAction(bundle, qi), 9000);
+      }, 2500 + (i + 1) * 2500);
+    });
+
+    // Cards 1 & 2 live action cycles (always visible — start immediately, staggered)
+    cycleCardAction('card-live-1', 1);
+    setTimeout(() => cycleCardAction('card-live-2', 2), 2000);
+
+    // ── Reveal finding-carriers card + bundle at 6 s ──
+    const pageHeading = document.querySelector('.page-heading');
+    setTimeout(() => {
+      // Show main card
+      mainCard.style.display = 'block';
+      mainCard.classList.add('card--reveal');
+      mainCard.classList.add('card--new');
+      mainCard.classList.add('card--new-alert');
+      mainCard.addEventListener('animationend', () => {
+        mainCard.classList.remove('card--reveal');
+      }, { once: true });
+
+      // Update heading
+      pageHeading.innerHTML = '<strong>Heads up, Trevor.</strong> A new situation just came in — I\'m already on it.';
+
+      // On first mouseleave: remove border highlight only, pill stays
+      mainCard.addEventListener('mouseleave', () => {
+        mainCard.classList.remove('card--new-alert');
+      }, { once: true });
+
+
+      // Show bundle
+      bundle0.style.display = 'block';
+      bundle0.classList.add('log-bundle--reveal');
+
+      // Stagger-animate the 2 pre-existing actions in bundle 0
+      bundle0.querySelectorAll('.log-action').forEach((action, i) => {
+        action.classList.add('log-action--new');
+        action.style.animationDelay = `${100 + i * 150}ms`;
+      });
+
+      // Complete bundle 0's initial spinners
+      bundle0.querySelectorAll('.log-action-icon.in-progress').forEach((icon, i) => {
+        setTimeout(() => completeIcon(icon), 4000 + i * 2500);
+      });
+
+      // Start card 0 live action cycle
+      cycleCardAction('card-live-0', 0);
+
+      // Start drawer step 4 & 5 live cycles (staggered)
+      cycleDrawerStep('drawer-step4-container', 0);
+      setTimeout(() => cycleDrawerStep('drawer-step5-container', 1), 2500);
+
+      // Start bundle 0 live action queue 2.5 s after reveal
+      setTimeout(() => {
+        addAction(bundle0, 0);
+        setInterval(() => addAction(bundle0, 0), 9000);
+      }, 2500);
+    }, 6000);
+
+    // ── Drawer step live cycling ──
+    const drawerQueues = [
+      // Step 4 — Prepare for Rebooking
+      [
+        {
+          reason: '6-hour window triggers highest urgency tier. Loading tenant surcharge policy.',
+          actions: [
+            { title: 'Surcharge ceiling calculated: +25%', desc: 'Matched 6h threshold against tenant policy tiers. Max budget = contract rate +25%.', cat: 'Procurement' },
+            { title: 'Tenant policy loaded from configuration', desc: 'Rebooking thresholds: >24h +10%, <12h +25%, <6h +50%. Default 5% applied as floor.', cat: 'Procurement' },
+          ]
+        },
+        {
+          reason: 'Identifying eligible replacement carriers on Tampa → Salt Lake City.',
+          actions: [
+            { title: '4 candidate carriers identified on lane', desc: 'Werner Enterprises, J.B. Hunt, FreightTech, Maverick — all contracted, excluding Echo Logistics.', cat: 'Bookings' },
+            { title: 'Carrier contacts retrieved from lifecycle metadata', desc: 'Phone numbers fetched for all 4 carriers. Most recently added contacts selected per carrier.', cat: 'Bookings' },
+          ]
+        },
+      ],
+      // Step 5 — Dispatch Carrier Quote Requests
+      [
+        {
+          reason: 'Dispatching parallel outreach calls via Lunapath/DFP to all 4 candidate carriers.',
+          actions: [
+            { title: 'Call dispatched to Werner Enterprises', desc: 'Dry Van · Tampa, FL → Salt Lake City, UT · pickup by 8:00 pm today. Callback URL and thread ID attached.', cat: 'Bookings' },
+            { title: 'Calls dispatched to J.B. Hunt, FreightTech, Maverick', desc: '3 parallel calls sent. Quote deadline set to 1 hour from dispatch.', cat: 'Bookings' },
+          ]
+        },
+        {
+          reason: 'Agent state checkpointed. Background thread freed while awaiting carrier responses.',
+          actions: [
+            { title: 'Quote deadline recorded: 1 hour from dispatch', desc: 'If zero quotes within 1h, deadline holds. First quote received tightens window to 10 minutes.', cat: 'Bookings' },
+            { title: 'Graph state saved to PostgreSQL', desc: 'Rebooking run paused in COLLECTING_QUOTES state. No resources held while waiting for callbacks.', cat: 'Bookings' },
+          ]
+        },
+      ],
+    ];
+
+    const drawerCursors = [
+      { cluster: 0, action: 0 },
+      { cluster: 0, action: 0 },
+    ];
+
+    function cycleDrawerStep(containerId, queueIndex) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const clusters = drawerQueues[queueIndex];
+      const cursor   = drawerCursors[queueIndex];
+      const cluster  = clusters[cursor.cluster % clusters.length];
+      const item     = cluster.actions[cursor.action];
+
+      if (cursor.action === 0) {
+        const bundle = container.closest('.log-bundle');
+        const header = bundle.querySelector('.log-bundle-header');
+        const reasoningEl = bundle.querySelector('.log-bundle-reasoning');
+        header.style.display = '';
+        reasoningEl.textContent = cluster.reason;
+      }
+
+      cursor.action++;
+      if (cursor.action >= cluster.actions.length) {
+        cursor.action = 0;
+        cursor.cluster++;
+      }
+
+      const el = document.createElement('div');
+      el.className = 'log-action log-action--new';
+      el.innerHTML = `
+        <div class="log-action-icon in-progress"></div>
+        <div class="log-action-body">
+          <div class="log-action-title">${item.title}</div>
+          <div class="log-action-desc">${item.desc}</div>
+          <div class="log-action-meta">
+            <span class="log-action-cat">${item.cat}</span>
+            <span class="log-action-time">${nowLabel()}</span>
+          </div>
+        </div>`;
+      container.appendChild(el);
+
+      const icon = el.querySelector('.log-action-icon');
+      setTimeout(() => {
+        completeIcon(icon);
+        // Increment the live action counter for this step
+        const agentBundle = container.closest('.agent-bundle');
+        const footer = agentBundle ? agentBundle.querySelector('.card-footer') : null;
+        if (footer) {
+          footer.style.display = '';
+          const num = footer.querySelector('.counter-num');
+          if (num) num.textContent = parseInt(num.textContent, 10) + 1;
+        }
+        setTimeout(() => {
+          el.classList.add('card-live-action-item--leaving');
+          setTimeout(() => {
+            el.remove();
+            cycleDrawerStep(containerId, queueIndex);
+          }, 320);
+        }, 1500);
+      }, 5000);
+    }
+
+    // ── Drawer open / close ──
+    const drawer        = document.getElementById('drawer-recovery');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const drawerClose   = document.getElementById('drawer-close');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    }
+
+    mainCard.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+
+    // ── Bundle expand / collapse ──
+    window.toggleBundle = function(headerEl) {
+      headerEl.closest('.agent-bundle').classList.toggle('expanded');
+    };
+
+  })();
+  </script>
 </body>
 </html>

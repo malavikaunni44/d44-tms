@@ -11,9 +11,9 @@
     {
       "name": "Transportation App v1",
       "runtimeExecutable": "/usr/sbin/httpd",
-      "runtimeArgs": ["-f", "/private/tmp/d44-tms-httpd.conf", "-DFOREGROUND"],
-      "port": 3400,
-      "url": "http://localhost:3400/prototypes/transportation-app-v1/"
+      "runtimeArgs": ["-f", "/private/tmp/d44-tms-app-httpd.conf", "-DFOREGROUND"],
+      "port": 3401,
+      "url": "http://localhost:3401/"
     }
   ]
 }

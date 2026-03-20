@@ -145,3 +145,17 @@ Shadows use brand indigo as the shadow color — not black or grey.
 |---|---|---|
 | `shadow.light.small` | `0px 4px 16px -8px rgba(56,54,212,0.16), 0px 0px 1px 0px rgba(56,54,212,0.5)` | Cards, dropdowns |
 | `shadow.light.medium` | `0px 12px 16px -8px rgba(56,54,212,0.08), 0px 2px 2px 0px rgba(56,54,212,0.07), 0px -1px 2px 0px rgba(56,54,212,0.02)` | Dialogs, modals, popovers |
+
+---
+
+## Product Documentation
+
+All product context documents live in `/docs`. Each file is named after the use case or concept it covers.
+
+**Current documents:**
+- `docs/execution-recovery-agents.md` — execution recovery agents use case
+
+**Rules for reading docs:**
+- Always read `docs/execution-recovery-agents.md` when building anything related to carrier recovery, missed pickups, disruption handling, or agent actions
+- Only read documents that are relevant to what is being built in the current session
+- As new documents are added to `/docs`, they will be listed here with a description of when to read them
