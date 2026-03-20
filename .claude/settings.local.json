@@ -31,7 +31,8 @@
       "Bash(mkdir -p /private/tmp/d44-tms-www/prototypes/transportation-app-v1)",
       "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/prototypes/transportation-app-v1/index.html /private/tmp/d44-tms-www/prototypes/transportation-app-v1/)",
       "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-system/index.html /private/tmp/d44-tms-www/)",
-      "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-tokens.json /private/tmp/d44-tms-www/)"
+      "Bash(cp /Users/bernardoramalho/Documents/claude-prototypes/d44-TMS/design-tokens.json /private/tmp/d44-tms-www/)",
+      "Bash(git checkout HEAD -- prototypes/transportation-app-v1/index.html)"
     ]
   }
 }

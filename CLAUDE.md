@@ -17,6 +17,24 @@ Then start via `preview_start` with name `"Design System Docs"` (config in `.cla
 
 ---
 
+## Icons
+
+Always use Material Design Icons from Google Fonts for all icons. Never use emoji, unicode symbols, or any other icon library.
+
+How to load them — add this to the `<head>` of every HTML file:
+```html
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+```
+
+How to use them in HTML:
+```html
+<span class="material-icons-outlined">icon_name</span>
+```
+
+Icon names must match exactly what's available at https://fonts.google.com/icons. When in doubt about an icon name, use a common one like `arrow_forward`, `close`, `menu`, `search`, `check`, etc.
+
+---
+
 ## Repository Purpose
 
 This is the **d44-TMS design system seed repository**. It holds the authoritative design tokens and style rules derived from the Manifest Material Design System in Figma. There is no application code here — this repo is the reference point for any UI work done in d44-TMS.
@@ -34,32 +52,6 @@ There is no package.json, build system, or test runner — this is a documentati
 ### Font
 
 **Inter** exclusively. Import from Google Fonts if not locally available: `https://fonts.google.com/specimen/Inter`
-
-### Icons
-
-**Material Symbols Outlined** is the canonical icon set. Always use it — never hand-roll SVG icons.
-
-Load via Google Fonts (add alongside the Inter link):
-```html
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" rel="stylesheet" />
-```
-
-Usage: `<span class="material-symbols-outlined">icon_name</span>`
-
-Size the icons with CSS rules scoped to their container — never with inline `width`/`height` attributes:
-
-| Context | CSS rule | Size |
-|---|---|---|
-| Text button | `.btn .material-symbols-outlined` | `18px` |
-| Icon button md | `.icon-btn-md .material-symbols-outlined` | `20px` |
-| Icon button sm | `.icon-btn-sm .material-symbols-outlined` | `18px` |
-| Icon button xs | `.icon-btn-xs .material-symbols-outlined` | `16px` |
-| Chip action btn | `.chip-tag-btn .material-symbols-outlined` | `14px` |
-| Avatar | `.avatar .material-symbols-outlined` | `1.4em` |
-| Field lead/trail | `.field-icon-lead .material-symbols-outlined` | `18px` |
-| Inline (error, etc.) | `.input-error .material-symbols-outlined` | `14px` |
-
-Common icon names used in this project: `add`, `search`, `settings`, `delete`, `arrow_forward`, `auto_awesome`, `more_horiz`, `person`, `mail`, `close`, `content_copy`, `check_circle`, `error`.
 
 ### Colors
 
